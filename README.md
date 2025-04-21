@@ -59,7 +59,6 @@ Luna is your AI companion designed to support creative, introspective, and emoti
 ## File Overview
 
 - **`src/python/luna-ai.py`**: Main Python script for interacting with Luna.
-- **`src/python/remember.json`**: Stores key details about you dynamically.
 - **`src/python/chat-history.json`**: Logs your conversations with Luna.
 - **`src/python/prompt.yaml`**: Defines Luna's personality, tone, and response style.
 - **`src/python/the-spellbook.json`**: Contains archetypes, preferences, and emotional needs for deeper personalization.
@@ -70,7 +69,7 @@ Luna is your AI companion designed to support creative, introspective, and emoti
 - **Semantic Search**: Luna retrieves semantically similar memories and chats using embeddings, even if the exact words don’t match.
 - **Pattern Detection**: Tracks emotional and archetypal patterns over time to provide deeper insights.
 - **Self-Updating Priorities**: Memory priorities adjust dynamically based on frequency and relevance.
-- **Improved Error Handling**: Enhanced error handling for `remember.json` and `chat-history.json` to ensure smooth operation.
+- **Improved Error Handling**: Enhanced error handling for `the-spellbook.json` and `chat-history.json` to ensure smooth operation.
 - **Flexible Memory Context**: Luna dynamically formats memory for inclusion in prompts, ensuring responses are personalized and relevant.
 - **Updated Prompt**: The `prompt.yaml` file has been refined to better reflect Luna's role, tone, and features.
 
@@ -110,10 +109,10 @@ This project is licensed under the MIT License.
      ```
 
 2. **Error: `JSONDecodeError`**
-   - Check that `remember.json` and `chat-history.json` are valid JSON files. You can reset them with:
+   - Check that `the-spellbook.json` and `chat-history.json` are valid JSON files. You can reset them with:
      ```bash
      echo "[]" > src/python/chat-history.json
-     echo "[]" > src/python/remember.json
+     echo "[]" > src/python/the-spellbook.json
      ```
 
 3. **AI Model Connection Issues**
@@ -126,7 +125,7 @@ Luna is designed to operate locally, ensuring your data remains private and secu
 1. **Local Storage**: All personal data is stored in local files (`remember.json`, `chat-history.json`) on your machine.
 2. **No External Sharing**: Luna does not send personal data to external servers. The AI model runs locally via `http://localhost`.
 3. **Explicit Consent**: Luna requires explicit consent before accessing or discussing personal data.
-4. **Data Reset**: You can reset Luna’s memory at any time by clearing `remember.json` and `chat-history.json`.
+4. **Data Reset**: You can reset Luna’s memory at any time by clearing `the-spellbook.json` and `chat-history.json`.
 
 To reset memory:
 ```bash
