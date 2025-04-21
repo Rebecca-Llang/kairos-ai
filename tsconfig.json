@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"module": "commonjs", // Keep this as "commonjs"
+		"target": "es6",
+		"outDir": "./out",
+		"lib": [
+			"ES2022"
+		],
+		"sourceMap": true,
+		"rootDir": "./src",
+		"strict": true,
+		"moduleResolution": "node", // Change this to "node" for CommonJS
+		"allowImportingTsExtensions": false,
+		"noEmit": false, // Ensure this is false so files are emitted
+		"skipLibCheck": true,
+		"esModuleInterop": true
+	}
+}

@@ -1,0 +1,24 @@
+# Python-related
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Local configuration files
+.vscode/
+.env
+
+# Compiled files
+out/
+dist/
+node_modules/
+.vscode-test/
+*.vsix
+
+# Chat hitory and spellbook
+.chat-history
+.spellbook

@@ -1,0 +1,70 @@
+{
+  "name": "reds-companion",
+  "displayName": "Luna",
+  "description": "An AI companion for creative, introspective, and emotionally intelligent conversations.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/luna-ai.js",
+  "commands": [
+    {
+      "command": "Chat.Red",
+      "title": "Chat with Luna"
+    }
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "Chat.Red",
+        "title": "Chat with Luna"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint . --ext .ts",
+    "test": "vscode-test",
+    "clean": "rm -rf out",
+    "debug": "code --extensionDevelopmentPath=.",
+    "start-python": "python3 src/python/luna-ai.py",
+    "reset-memory": "echo '{}' > src/python/remember.json && echo '[]' > src/python/chat-history.json"
+  },
+  "keywords": [
+    "AI",
+    "companion",
+    "creative",
+    "introspection",
+    "emotional-intelligence",
+    "cycle-syncing",
+    "archetypes"
+  ],
+  "author": "Rebecca Lang (Rebecca-Llang) and Red (Kristin)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.23.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "torch": "^0.2.7",
+    "yaml": "^2.7.1"
+  },
+  "overrides": {
+    "minimist": "^1.2.8"
+  },
+  "type": "commonjs"
+}
