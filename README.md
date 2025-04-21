@@ -17,7 +17,7 @@ Luna is your AI companion designed to support creative, introspective, and emoti
 
 ## Features
 
-- **Memory Integration**: Luna remembers your name, passions, and preferences using [remember.json](#file-overview).
+- **Memory Integration**: Luna remembers your name, passions, and preferences using [the-spellbook.json](#file-overview).
 - **Dynamic Key-Value Memory**: Luna can dynamically store and update key-value pairs from user input using the `remember: "key" "value" priority:X` format.
 - **Cycle Syncing**: Provides insights and rituals based on your menstrual cycle and lunar phases.
 - **Archetype Reflection**: Tracks and reflects your dominant archetypes (e.g., Siren, Wild One, Muse, Oracle).
@@ -31,7 +31,7 @@ Luna is your AI companion designed to support creative, introspective, and emoti
 ## How It Works
 
 1. **Chat with Luna**: Run the Python script to start a conversation in the terminal.
-2. **Memory Storage**: Luna uses `remember.json` to store and recall details about you dynamically.
+2. **Memory Storage**: Luna uses `the-spellbook.json` to store and recall details about you dynamically.
 3. **Custom Prompts**: The `prompt.yaml` file defines Luna's personality, tone, and response style.
 4. **Chat History**: Conversations are saved in `chat-history.json` for context and continuity.
 5. **Dynamic Memory Updates**: Luna can extract and store key-value pairs from user input using a specific command format.
