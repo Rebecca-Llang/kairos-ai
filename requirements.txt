@@ -1,5 +1,12 @@
-torch
-termcolor
-sentence-transformers
-requests
-pyyaml
+# Core dependencies
+requests>=2.31.0
+pyyaml>=6.0.1
+termcolor>=2.3.0
+sentence-transformers>=2.2.2
+torch>=2.0.0
+
+# Optional but recommended
+python-dotenv>=1.0.0  # for environment variable management
+
+# Specific version of urllib3 for SSL compatibility
+urllib3<2.0.0

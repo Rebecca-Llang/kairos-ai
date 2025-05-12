@@ -1,6 +1,6 @@
 {
-  "name": "reds-companion",
-  "displayName": "Luna",
+  "name": "bees-companion",
+  "displayName": "Kairos",
   "description": "An AI companion for creative, introspective, and emotionally intelligent conversations.",
   "version": "0.0.1",
   "engines": {
@@ -9,18 +9,18 @@
   "categories": [
     "Other"
   ],
-  "main": "./out/luna-ai.js",
+  "main": "./out/kairos-ai.js",
   "commands": [
     {
-      "command": "Chat.Red",
-      "title": "Chat with Luna"
+      "command": "Chat.Kairos",
+      "title": "Chat with Kairos"
     }
   ],
   "contributes": {
     "commands": [
       {
-        "command": "Chat.Red",
-        "title": "Chat with Luna"
+        "command": "Chat.Kairos",
+        "title": "Chat with Kairos"
       }
     ]
   },
@@ -33,7 +33,7 @@
     "test": "vscode-test",
     "clean": "rm -rf out",
     "debug": "code --extensionDevelopmentPath=.",
-    "start-python": "python3 src/python/luna-ai.py",
+    "start-python": "python3 src/python/kairos-ai.py",
     "reset-memory": "echo '{}' > src/python/remember.json && echo '[]' > src/python/chat-history.json"
   },
   "keywords": [
@@ -45,7 +45,7 @@
     "cycle-syncing",
     "archetypes"
   ],
-  "author": "Rebecca Lang (Rebecca-Llang) and Red (Kristin)",
+  "author": "Rebecca Lang (Rebecca-Llang) and Red (ZanKris)",
   "license": "MIT",
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

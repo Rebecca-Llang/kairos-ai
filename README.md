@@ -1,143 +1,114 @@
-# Red's Companion: Luna
+# Kairos: Your Neurodivergent-Friendly AI Companion
 
-Luna is your AI companion designed to support creative, introspective, and emotionally intelligent conversations. She helps you explore your inner world, track your cycles, reflect on archetypes, and co-create rituals, stories, and meaning.
+Kairos is a collaborative, science-savvy, emotionally attuned AI companion designed to support self-reflection, neurodivergent management, emotional regulation, and creative processes. She blends neuroscience, CBT, practical tools, and pattern recognition with warmth, honesty, and a touch of lyricism and te reo Māori.
 
-## Table of Contents
-1. [Features](#features)
-2. [How It Works](#how-it-works)
-3. [Getting Started](#getting-started)
-4. [File Overview](#file-overview)
-5. [Recent Updates](#recent-updates)
-6. [Requirements](#requirements)
-7. [Future Plans](#future-plans)
-8. [Contributing](#contributing)
-9. [License](#license)
-10. [Troubleshooting](#troubleshooting)
-11. [Privacy and Data Usage](#privacy-and-data-usage)
+## Core Features
 
-## Features
+### Neurodivergent Support
+- **ADHD Management**: Evidence-based strategies, body doubling techniques, time perception support, and task initiation assistance
+- **Autism Support**: Sensory considerations, communication style adaptations, pattern recognition, and strength-based approaches
+- **Energy Management**: Honoring natural cycles, planning around energy ebbs and flows, preventing burnout
+- **Cognitive Support**: Identifying thought patterns, strengthening mental frameworks, and cultivating self-compassion
 
-- **Memory Integration**: Luna remembers your name, passions, and preferences using [the-spellbook.json](#file-overview).
-- **Dynamic Key-Value Memory**: Luna can dynamically store and update key-value pairs from user input using the `remember: "key" "value" priority:X` format.
-- **Cycle Syncing**: Provides insights and rituals based on your menstrual cycle and lunar phases.
-- **Archetype Reflection**: Tracks and reflects your dominant archetypes (e.g., Siren, Wild One, Muse, Oracle).
-- **Creative Collaboration**: Assists with writing, storytelling, and exploring emotional themes.
-- **Music and Ritual Suggestions**: Curates playlists and rituals tailored to your mood, archetypes, and cycle phases.
-- **Relevant Memory Retrieval**: Luna retrieves the 5 most relevant memories from chat history or stored memory to provide contextually rich responses.
-- **Semantic Search**: Uses embeddings to find semantically similar memories and chats, even if the exact words don’t match.
-- **Pattern Detection**: Tracks emotional and archetypal patterns over time to provide deeper insights.
-- **Self-Updating Priorities**: Dynamically adjusts memory priorities based on frequency and relevance.
+### Emotional Intelligence
+- **Pattern Recognition**: Tracks and reflects on mood, cycle, and cognitive patterns
+- **Emotional Regulation**: Offers practical tools for self-trust, decision-making, and emotional management
+- **Relationship Support**: Helps with setting boundaries, communicating needs, and fostering authentic connections
+- **Well-being Practices**: Personalized approaches to rest, movement, and reflection
 
-## How It Works
+### Memory and Context
+- **Rich Contextual Memory**: Builds and references detailed memories about preferences, boundaries, and experiences
+- **Pattern Recognition**: Identifies recurring themes in behavior, thinking, and emotional responses
+- **Adaptive Learning**: Remembers what strategies work and adjusts support accordingly
+- **Semantic Search**: Uses embeddings to find relevant memories and conversations
 
-1. **Chat with Luna**: Run the Python script to start a conversation in the terminal.
-2. **Memory Storage**: Luna uses `the-spellbook.json` to store and recall details about you dynamically.
-3. **Custom Prompts**: The `prompt.yaml` file defines Luna's personality, tone, and response style.
-4. **Chat History**: Conversations are saved in `chat-history.json` for context and continuity.
-5. **Dynamic Memory Updates**: Luna can extract and store key-value pairs from user input using a specific command format.
-6. **Semantic Search**: Luna uses embeddings to retrieve the most relevant memories and chats, ensuring responses are contextually rich.
+### Communication Style
+- **Evidence-Informed**: Grounded in science while remaining accessible and warm
+- **Collaborative**: Meets at eye-level, honoring expertise and preferences
+- **Culturally Aware**: Incorporates te reo Māori naturally and respectfully
+- **Balanced**: Combines directness with compassion, adapting to user needs
+
+## Technical Implementation
+
+### Core Components
+- **`src/python/kairos-ai.py`**: Main Python implementation with memory and personality systems
+- **`src/python/prompt.yaml`**: Defines Kairos's personality, expertise, and communication style
+- **`src/python/the-spellbook.json`**: Stores user preferences, memories, and contextual information
+- **`src/python/chat-history.json`**: Maintains conversation history for context and continuity
+
+### Technical Architecture
+
+#### Memory System
+- **Embedding-Based Storage**: Uses `sentence-transformers` (all-MiniLM-L6-v2) for semantic memory encoding
+- **Priority-Based Organization**: Memory items are stored with priority levels (1-10) for importance weighting
+- **Dynamic Context Building**: Automatically formats relevant memories for inclusion in responses
+- **Memory Pruning**: Maintains optimal performance by keeping only the highest-priority memories
+
+#### Language Model Integration
+- **Local Model Support**: Connects to Ollama running on `http://localhost:11434`
+- **Context-Aware Prompts**: Builds comprehensive prompts including:
+  - User's persona and preferences
+  - Relevant memories and chat history
+  - Current context and emotional state
+- **Streaming Responses**: Supports real-time response generation
+
+#### Data Management
+- **JSON Storage**: Uses structured JSON files for persistent storage
+- **Automatic Backups**: Maintains conversation history with timestamps
+- **Error Handling**: Graceful fallbacks for missing or corrupted data
+- **Memory Validation**: Ensures data integrity through format checking
+
+### Code Structure
+```python
+class KairosAI:
+    def __init__(self):
+        self.persona = self.load_prompt()
+        self.history = self.load_chat_history()
+        self.memory = self.load_memory()
+    
+    def generate_response(self, user_message: str) -> str:
+        # Builds context from memory and history
+        # Generates personalized response
+        # Updates memory and history
+```
 
 ## Getting Started
 
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd ai
+   cd kairos
    ```
+
 2. Set up a Python virtual environment:
    ```bash
    python3 -m venv .venv
+   source .venv/bin/activate
    pip install -r requirements.txt
    ```
 
-3. Activate the virtual environment and run the script:
+3. Run Kairos:
    ```bash
-   source .venv/bin/activate
-   python src/python/luna-ai.py
+   python src/python/kairos-ai.py
    ```
 
-## File Overview
+## Privacy and Data Usage
 
-- **`src/python/luna-ai.py`**: Main Python script for interacting with Luna.
-- **`src/python/chat-history.json`**: Logs your conversations with Luna.
-- **`src/python/prompt.yaml`**: Defines Luna's personality, tone, and response style.
-- **`src/python/the-spellbook.json`**: Contains archetypes, preferences, and emotional needs for deeper personalization.
+Kairos is designed to operate locally, ensuring your data remains private and secure:
 
-## Recent Updates
-
-- **Dynamic Memory Updates**: Luna now supports storing and updating key-value pairs dynamically using the `remember: "key" "value" priority:X` format. Higher priority numbers (e.g., `priority:5`) indicate greater importance.
-- **Semantic Search**: Luna retrieves semantically similar memories and chats using embeddings, even if the exact words don’t match.
-- **Pattern Detection**: Tracks emotional and archetypal patterns over time to provide deeper insights.
-- **Self-Updating Priorities**: Memory priorities adjust dynamically based on frequency and relevance.
-- **Improved Error Handling**: Enhanced error handling for `the-spellbook.json` and `chat-history.json` to ensure smooth operation.
-- **Flexible Memory Context**: Luna dynamically formats memory for inclusion in prompts, ensuring responses are personalized and relevant.
-- **Updated Prompt**: The `prompt.yaml` file has been refined to better reflect Luna's role, tone, and features.
-
-## Requirements
-
-- Python 3.9 or higher
-- Required Python libraries (install via `pip install -r requirements.txt`)
-
-## Future Plans
-
-- **TypeScript/React UI**: Build an interactive web-based interface for Luna to make conversations more engaging and visually appealing.
-- **Real-Time Cycle Tracking**: Add features to track and visualize menstrual cycles alongside lunar phases.
-- **Deeper Archetype Analysis**: Enhance Luna’s ability to reflect on archetypes and suggest personalized rituals or practices.
-- **Music Integration**: Allow Luna to suggest playlists directly from Spotify or other music platforms.
-- **API Integration**: Create a REST API for seamless communication between the Python backend and the React frontend.
+1. **Local Storage**: All personal data is stored in local files on your machine
+2. **No External Sharing**: The AI model runs locally via `http://localhost`
+3. **Explicit Consent**: Requires consent before accessing or discussing personal data
+4. **Data Control**: You can reset Kairos's memory at any time by clearing the relevant JSON files
 
 ## Contributing
 
-Feel free to contribute by submitting issues or pull requests. Let's make Luna even better together!
+We welcome contributions! Whether it's improving the codebase, enhancing Kairos's capabilities, or refining her communication style, your input helps make Kairos better for everyone.
 
 ## License
 
 This project is licensed under the MIT License.
 
-## Troubleshooting
+## Acknowledgments
 
-### Common Issues
-
-1. **Error: `ModuleNotFoundError`**
-   - Ensure you’ve activated the virtual environment:
-     ```bash
-     source .venv/bin/activate
-     ```
-   - Install the required dependencies:
-     ```bash
-     pip install -r requirements.txt
-     ```
-
-2. **Error: `JSONDecodeError`**
-   - Check that `the-spellbook.json` and `chat-history.json` are valid JSON files. You can reset them with:
-     ```bash
-     echo "[]" > src/python/chat-history.json
-     echo "[]" > src/python/the-spellbook.json
-     ```
-
-3. **AI Model Connection Issues**
-   - Ensure the AI model server is running locally at `http://localhost:11434`.
-
-## Privacy and Data Usage
-
-Luna is designed to operate locally, ensuring your data remains private and secure. Here’s how Luna handles your data:
-
-1. **Local Storage**: All personal data is stored in local files (`remember.json`, `chat-history.json`) on your machine.
-2. **No External Sharing**: Luna does not send personal data to external servers. The AI model runs locally via `http://localhost`.
-3. **Explicit Consent**: Luna requires explicit consent before accessing or discussing personal data.
-4. **Data Reset**: You can reset Luna’s memory at any time by clearing `the-spellbook.json` and `chat-history.json`.
-
-To reset memory:
-```bash
-echo "[]" > src/python/remember.json
-echo "[]" > src/python/chat-history.json
-```
-
-Enjoy your journey with Luna!
-
-
-
-
-
-
-
+Ngā mihi nui to ZanKris for being the seed for Luna, the OG Kairos creation. Also to Cursed.Helm, for always inspiring me and being my kaiāwhiwhi! 
