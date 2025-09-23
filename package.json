@@ -3,10 +3,14 @@
   "description": "An AI companion for creative, introspective, and emotionally intelligent conversations.",
   "version": "0.0.1",
   "scripts": {
-    "start": "python3 src/python/kairos-ai.py",
+    "start": "python3 src/python/kairos_ai.py",
     "reset": "echo '[]' > src/python/the-spellbook.json && echo '[]' > src/python/chat-history.json",
-    "debug": "KAIROS_DEBUG=true python3 src/python/kairos-ai.py",
-    "test": "python3 -c \"import sys; sys.path.append('src/python'); from kairos_ai import KairosAI; print('✅ Kairos loads successfully')\"",
+    "debug": "KAIROS_DEBUG=true python3 src/python/kairos_ai.py",
+    "test": "python3 tests/run_tests.py",
+    "test:core": "python3 tests/test_core.py",
+    "test:data": "python3 tests/test_data.py",
+    "test:config": "python3 tests/test_config.py",
+    "test:quick": "python3 -c \"import ast; ast.parse(open('src/python/kairos_ai.py').read()); print('✅ Kairos syntax is valid')\"",
     "setup": "mkdir -p frontend && cd frontend && npm create vite@latest . -- --template react-ts",
     "dev": "concurrently \"npm start\" \"cd frontend && npm run dev\""
   },

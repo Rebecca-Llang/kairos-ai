@@ -62,7 +62,7 @@ Built with:
 ## 📁 File Structure
 
 ### Core Files
-- **`src/python/kairos-ai.py`** - Main Python implementation with memory and personality systems
+- **`src/python/kairos_ai.py`** - Main Python implementation with memory and personality systems
 - **`src/python/prompt.yaml`** - Defines Kairos's personality, expertise, and communication style
 - **`src/python/the-spellbook.json`** - Template for user preferences, memories, and contextual information
 - **`src/python/the-spellbook-bee.json`** - Rebecca's personal memory data (not tracked in git)
@@ -70,13 +70,24 @@ Built with:
 
 ### Configuration Files
 - **`package.json`** - Project configuration and dependencies
-- **`tsconfig.json`** - TypeScript compiler settings
-- **`eslint.config.mjs`** - Code quality and linting rules
 - **`requirements.txt`** - Python dependencies
 
-### Development Files
-- **`src/ts/models.ts`** - TypeScript interfaces for chat messages and memory
-- **`src/test/extension.test.ts`** - Unit tests (legacy from VS Code extension)
+## ⚡ Commands
+
+```bash
+npm start          # Start Kairos AI
+npm run debug      # Start with debug output
+npm run reset      # Clear all memories and chat history
+
+npm test           # Run complete test suite
+npm run test:core  # Run core functionality tests
+npm run test:data  # Run data validation tests
+npm run test:config # Run configuration tests
+npm run test:quick # Quick syntax validation
+
+npm run setup      # Initialize frontend project
+npm run dev        # Run backend + frontend concurrently
+```
 
 ## 🔮 Future Plans
 
