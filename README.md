@@ -1,114 +1,92 @@
-# Kairos: Your Neurodivergent-Friendly AI Companion
+# Kairos: Your AI Companion for Neurodivergent Minds
 
-Kairos is a collaborative, science-savvy, emotionally attuned AI companion designed to support self-reflection, neurodivergent management, emotional regulation, and creative processes. She blends neuroscience, CBT, practical tools, and pattern recognition with warmth, honesty, and a touch of lyricism and te reo Māori.
+Kairos is a warm, intelligent AI companion designed specifically for neurodivergent individuals. She combines neuroscience, emotional intelligence, and practical tools to support your unique way of thinking and being in the world.
 
-## Core Features
+## What Makes Kairos Special
 
-### Neurodivergent Support
-- **ADHD Management**: Evidence-based strategies, body doubling techniques, time perception support, and task initiation assistance
-- **Autism Support**: Sensory considerations, communication style adaptations, pattern recognition, and strength-based approaches
-- **Energy Management**: Honoring natural cycles, planning around energy ebbs and flows, preventing burnout
-- **Cognitive Support**: Identifying thought patterns, strengthening mental frameworks, and cultivating self-compassion
+**She understands neurodivergence** - Kairos is built with deep knowledge of ADHD, autism, and the beautiful complexity of neurodivergent minds. She gets that your brain works differently, and that's not a bug—it's a feature.
 
-### Emotional Intelligence
-- **Pattern Recognition**: Tracks and reflects on mood, cycle, and cognitive patterns
-- **Emotional Regulation**: Offers practical tools for self-trust, decision-making, and emotional management
-- **Relationship Support**: Helps with setting boundaries, communicating needs, and fostering authentic connections
-- **Well-being Practices**: Personalized approaches to rest, movement, and reflection
+**She remembers and learns** - Kairos builds rich memories about your preferences, challenges, and what works for you. She uses semantic search to find relevant context from past conversations, making each interaction more personalised.
 
-### Memory and Context
-- **Rich Contextual Memory**: Builds and references detailed memories about preferences, boundaries, and experiences
-- **Pattern Recognition**: Identifies recurring themes in behavior, thinking, and emotional responses
-- **Adaptive Learning**: Remembers what strategies work and adjusts support accordingly
-- **Semantic Search**: Uses embeddings to find relevant memories and conversations
+**She honours your cycles** - Whether it's your personal cycles, energy patterns, or creative rhythms, Kairos recognises that you're not a machine. She works with your natural ebbs and flows, not against them.
 
-### Communication Style
-- **Evidence-Informed**: Grounded in science while remaining accessible and warm
-- **Collaborative**: Meets at eye-level, honoring expertise and preferences
-- **Culturally Aware**: Incorporates te reo Māori naturally and respectfully
-- **Balanced**: Combines directness with compassion, adapting to user needs
+**She speaks your language** - Warm, collaborative, and culturally aware. Kairos incorporates te reo Māori naturally and meets you at eye-level.
 
-## Technical Implementation
+## How It Works
 
-### Core Components
-- **`src/python/kairos-ai.py`**: Main Python implementation with memory and personality systems
-- **`src/python/prompt.yaml`**: Defines Kairos's personality, expertise, and communication style
-- **`src/python/the-spellbook.json`**: Stores user preferences, memories, and contextual information
-- **`src/python/chat-history.json`**: Maintains conversation history for context and continuity
+Kairos runs as a VS Code extension with a Python backend that connects to a local AI model (Ollama). Everything stays on your machine—your data, your conversations, your privacy.
 
-### Technical Architecture
-
-#### Memory System
-- **Embedding-Based Storage**: Uses `sentence-transformers` (all-MiniLM-L6-v2) for semantic memory encoding
-- **Priority-Based Organization**: Memory items are stored with priority levels (1-10) for importance weighting
-- **Dynamic Context Building**: Automatically formats relevant memories for inclusion in responses
-- **Memory Pruning**: Maintains optimal performance by keeping only the highest-priority memories
-
-#### Language Model Integration
-- **Local Model Support**: Connects to Ollama running on `http://localhost:11434`
-- **Context-Aware Prompts**: Builds comprehensive prompts including:
-  - User's persona and preferences
-  - Relevant memories and chat history
-  - Current context and emotional state
-- **Streaming Responses**: Supports real-time response generation
-
-#### Data Management
-- **JSON Storage**: Uses structured JSON files for persistent storage
-- **Automatic Backups**: Maintains conversation history with timestamps
-- **Error Handling**: Graceful fallbacks for missing or corrupted data
-- **Memory Validation**: Ensures data integrity through format checking
-
-### Code Structure
-```python
-class KairosAI:
-    def __init__(self):
-        self.persona = self.load_prompt()
-        self.history = self.load_chat_history()
-        self.memory = self.load_memory()
-    
-    def generate_response(self, user_message: str) -> str:
-        # Builds context from memory and history
-        # Generates personalized response
-        # Updates memory and history
-```
+### Key Features
+- **Memory System**: Remembers your preferences, challenges, and what strategies work for you
+- **Pattern Recognition**: Notices recurring themes in your mood, energy, and thinking
+- **Cycle Awareness**: Understands how hormonal cycles affect focus and energy
+- **ADHD Support**: Body doubling, implementation intentions, and task initiation help
+- **Autism Support**: Sensory considerations and communication style adaptations
+- **Emotional Intelligence**: CBT techniques, emotional regulation tools, and gentle accountability
 
 ## Getting Started
 
-1. Clone the repository:
+1. **Install Ollama** and pull the Llama 3.2 model:
    ```bash
-   git clone <repository-url>
-   cd kairos
+   ollama pull llama3.2
    ```
 
-2. Set up a Python virtual environment:
+2. **Set up the Python environment**:
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
    pip install -r requirements.txt
    ```
 
-3. Run Kairos:
+3. **Run Kairos**:
    ```bash
-   python src/python/kairos-ai.py
+   npm run start-python
    ```
 
-## Privacy and Data Usage
+4. **Give consent** when prompted - Kairos will ask for permission to access your personal data before diving into deep conversations.
 
-Kairos is designed to operate locally, ensuring your data remains private and secure:
+## Privacy First
 
-1. **Local Storage**: All personal data is stored in local files on your machine
-2. **No External Sharing**: The AI model runs locally via `http://localhost`
-3. **Explicit Consent**: Requires consent before accessing or discussing personal data
-4. **Data Control**: You can reset Kairos's memory at any time by clearing the relevant JSON files
+- **Everything stays local** - No data leaves your machine
+- **You control your data** - Reset Kairos's memory anytime with `npm run reset-memory`
+- **Explicit consent** - Kairos asks permission before accessing personal information
+- **Transparent storage** - All data stored in readable JSON files
+
+## The Technical Side
+
+Built with:
+- **Python** for the AI logic and memory systems
+- **TypeScript** for the VS Code extension
+- **Sentence Transformers** for semantic memory search
+- **Ollama** for local AI model hosting
+- **JSON** for simple, transparent data storage
+
+## File Structure
+
+### Core Files
+- **`src/python/kairos-ai.py`** - Main Python implementation with memory and personality systems
+- **`src/python/prompt.yaml`** - Defines Kairos's personality, expertise, and communication style
+- **`src/python/the-spellbook.json`** - Stores user preferences, memories, and contextual information
+- **`src/python/chat-history.json`** - Maintains conversation history for context and continuity
+
+### Configuration Files
+- **`package.json`** - VS Code extension configuration and dependencies
+- **`tsconfig.json`** - TypeScript compiler settings
+- **`eslint.config.mjs`** - Code quality and linting rules
+- **`requirements.txt`** - Python dependencies
+
+### Development Files
+- **`src/ts/models.ts`** - TypeScript interfaces for chat messages and memory
+- **`src/test/extension.test.ts`** - Unit tests for the VS Code extension
+- **`README.md`** - This documentation file
 
 ## Contributing
 
-We welcome contributions! Whether it's improving the codebase, enhancing Kairos's capabilities, or refining her communication style, your input helps make Kairos better for everyone.
-
-## License
-
-This project is licensed under the MIT License.
+Contributions are welcome,for code improvements, better documentation, or suggestions for making Kairos more helpful.
 
 ## Acknowledgments
 
-Ngā mihi nui to ZanKris for being the seed for Luna, the OG Kairos creation. Also to Cursed.Helm, for always inspiring me and being my kaiāwhiwhi! 
+Ngā mihi nui to ZanKris for planting the seed that became Luna, the original Kairos. And to Cursed.Helm, for always inspiring and being my kaiāwhiwhi (supporter) in this journey.
+
+---
+
