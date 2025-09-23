@@ -7,6 +7,7 @@ import json
 import yaml
 import requests
 import re
+import time
 from datetime import datetime
 from typing import List, Dict, Any, Tuple, Optional
 from termcolor import colored
@@ -23,8 +24,16 @@ OLLAMA_URL = "http://localhost:11434/api/generate"
 MAX_MEMORY_ITEMS = 30
 RELEVANT_MEMORIES_COUNT = 5
 
+# Debug mode - set to True only for development
+DEBUG_MODE = os.getenv("KAIROS_DEBUG", "false").lower() == "true"
+
 # Initialize embedding model
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+try:
+    embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+except Exception as e:
+    print(colored(f"❌ Failed to initialize embedding model: {e}", "red"))
+    print(colored("Please install: pip install sentence-transformers", "yellow"))
+    exit(1)
 
 
 class KairosAI:
@@ -39,34 +48,43 @@ class KairosAI:
     def load_prompt(self) -> str:
         """Load Kairos's personality from prompt.yaml."""
         try:
-            with open(PROMPT_PATH, "r") as f:
+            with open(PROMPT_PATH, "r", encoding='utf-8') as f:
                 yaml_data = yaml.safe_load(f)
-                if "persona" not in yaml_data:
-                    print(colored("❌ Error: 'persona' field missing in prompt.yaml", "red"))
-                    raise ValueError("Missing 'persona' in prompt.yaml")
-                return yaml_data["persona"]
+            
+            if not yaml_data or "persona" not in yaml_data:
+                print(colored("❌ Error: Missing or invalid prompt.yaml", "red"))
+                print(colored("Please check your prompt.yaml file", "yellow"))
+                exit(1)
+                
+            return yaml_data["persona"]
+            
         except FileNotFoundError:
-            print(colored("❌ Error: prompt.yaml not found. Please create this file.", "red"))
-            raise
+            print(colored("❌ Error: prompt.yaml not found", "red"))
+            print(colored("Please create this file with Kairos's personality", "yellow"))
+            exit(1)
         except Exception as e:
             print(colored(f"❌ Error loading prompt.yaml: {e}", "red"))
-            raise
+            exit(1)
 
     def load_chat_history(self) -> List[Dict[str, Any]]:
         """Load previous chat history."""
         if not os.path.exists(HISTORY_PATH):
             return []
         try:
-            with open(HISTORY_PATH, "r") as f:
-                return json.load(f)
+            with open(HISTORY_PATH, "r", encoding='utf-8') as f:
+                data = json.load(f)
+                return data if isinstance(data, list) else []
         except Exception as e:
-            print(colored(f"❌ Error reading chat history: {e}", "red"))
+            print(colored(f"⚠️ Chat history corrupted, starting fresh: {e}", "yellow"))
             return []
 
     def save_chat_history(self) -> None:
         """Save current chat history to file."""
-        with open(HISTORY_PATH, "w") as f:
-            json.dump(self.history, f, indent=2)
+        try:
+            with open(HISTORY_PATH, "w", encoding='utf-8') as f:
+                json.dump(self.history, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(colored(f"⚠️ Failed to save chat history: {e}", "yellow"))
 
     def load_memory(self) -> List[Dict[str, Any]]:
         """Load Kairos's memory from the-spellbook.json."""
@@ -204,22 +222,31 @@ class KairosAI:
             "Kairos:"
         )
 
-       # print(colored("🧠 DEBUG: Building prompt for model", "yellow"))
-        # Uncomment for debugging
-        print(colored(full_prompt, "cyan"))
+        # Debug output - only show in debug mode
+        if DEBUG_MODE:
+            print(colored("🧠 DEBUG: Building prompt for model", "yellow"))
+            print(colored(full_prompt, "cyan"))
 
         if not OLLAMA_URL.startswith("http://localhost"):
-            return "⚠️ Local model not connected."
+            return "⚠️ Local model not connected. Please ensure Ollama is running locally."
 
         try:
-            res = requests.post(
+            response = requests.post(
                 OLLAMA_URL, 
-                json={"model": MODEL_NAME, "prompt": full_prompt, "stream": False}
+                json={"model": MODEL_NAME, "prompt": full_prompt, "stream": False},
+                timeout=30
             )
-            res.raise_for_status()
-            return res.json().get("response", "⚠️ No response.").strip()
+            response.raise_for_status()
+            return response.json()["response"].strip()
+            
+        except requests.exceptions.ConnectionError:
+            return "⚠️ Cannot connect to Ollama. Please ensure it's running on localhost:11434"
+        except requests.exceptions.Timeout:
+            return "⚠️ Request timed out. The model may be overloaded."
         except requests.exceptions.RequestException as e:
-            return f"⚠️ Connection error: {e}"
+            return f"⚠️ Network error: {e}"
+        except Exception as e:
+            return f"⚠️ Something went wrong: {e}"
 
     def add_to_history(self, role: str, content: str) -> None:
         """Add a new message to the chat history."""
@@ -253,7 +280,7 @@ def main():
         kairos = KairosAI()
     except Exception as e:
         print(colored(f"❌ Failed to initialize Kairos: {e}", "red"))
-        print(colored("Please check your prompt.yaml file and try again.", "yellow"))
+        print(colored("Please check your configuration and try again.", "yellow"))
         return
     
     # Display recent conversation history

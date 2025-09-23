@@ -1,40 +1,17 @@
 {
-  "name": "bees-companion",
-  "displayName": "Kairos",
+  "name": "kairos-ai",
   "description": "An AI companion for creative, introspective, and emotionally intelligent conversations.",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.75.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "main": "./out/kairos-ai.js",
-  "commands": [
-    {
-      "command": "Chat.Kairos",
-      "title": "Chat with Kairos"
-    }
-  ],
-  "contributes": {
-    "commands": [
-      {
-        "command": "Chat.Kairos",
-        "title": "Chat with Kairos"
-      }
-    ]
-  },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint . --ext .ts",
-    "test": "vscode-test",
-    "clean": "rm -rf out",
-    "debug": "code --extensionDevelopmentPath=.",
-    "start-python": "python3 src/python/kairos-ai.py",
-    "reset-memory": "echo '{}' > src/python/remember.json && echo '[]' > src/python/chat-history.json"
+    "start": "python3 src/python/kairos-ai.py",
+    "reset-memory": "echo '[]' > src/python/the-spellbook.json && echo '[]' > src/python/chat-history.json",
+    "debug": "KAIROS_DEBUG=true python3 src/python/kairos-ai.py",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:install": "cd frontend && npm install",
+    "frontend:test": "cd frontend && npm run test",
+    "frontend:lint": "cd frontend && npm run lint",
+    "frontend:type-check": "cd frontend && npm run type-check"
   },
   "keywords": [
     "AI",
@@ -47,24 +24,27 @@
   ],
   "author": "Rebecca Lang (Rebecca-Llang) and Red (ZanKris)",
   "license": "MIT",
-  "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.75.0",
-    "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
-    "eslint": "^9.23.0",
-    "typescript": "^5.8.2"
-  },
   "dependencies": {
-    "torch": "^0.2.7",
-    "yaml": "^2.7.1"
+    "concurrently": "^8.2.2"
   },
-  "overrides": {
-    "minimist": "^1.2.8"
-  },
-  "type": "commonjs"
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.0",
+    "prettier": "^3.0.0",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5.0.0",
+    "vite": "^4.4.0",
+    "vitest": "^0.34.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/user-event": "^14.4.0"
+  }
 }
