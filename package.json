@@ -10,6 +10,8 @@
     "test:core": "python3 tests/test_core.py",
     "test:data": "python3 tests/test_data.py",
     "test:config": "python3 tests/test_config.py",
+    "test:system": "python3 tests/test_kairos_system.py",
+    "test:api": "python3 tests/test_api_quick.py",
     "test:quick": "python3 -c \"import ast; ast.parse(open('src/python/kairos_ai.py').read()); print('✅ Kairos syntax is valid')\"",
     "setup": "mkdir -p frontend && cd frontend && npm create vite@latest . -- --template react-ts",
     "dev": "concurrently \"npm start\" \"cd frontend && npm run dev\""

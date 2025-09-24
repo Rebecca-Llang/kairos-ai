@@ -13,7 +13,6 @@ def test_yaml_config():
         with open('src/python/prompt.yaml', 'r') as f:
             data = yaml.safe_load(f)
         
-        # Check it has required fields
         if 'persona' in data:
             print("✅ prompt.yaml - Valid YAML with persona")
             return True

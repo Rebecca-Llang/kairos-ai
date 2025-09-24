@@ -22,6 +22,9 @@ Kairos runs as a Python backend that connects to a local AI model (Ollama). Ever
 - **🌙 Cycle Awareness**: Understands how hormonal cycles affect focus and energy
 - **🎯 ADHD & Neurodivergent Support**: Body doubling, implementation intentions, and task initiation help with communication style adaptations
 - **❤️ Emotional Intelligence**: CBT techniques, emotional regulation tools, and gentle accountability
+- **✨ Beautiful Terminal Interface**: Rich, colorful output with proper input handling
+- **🚨 Hallucination Detection**: Automatically detects and removes fake user input from AI responses
+- **⏱️ Smart Timeouts**: Prevents hanging responses with intelligent timeout management
 
 ## 🛠️ Getting Started
 
@@ -32,8 +35,8 @@ Kairos runs as a Python backend that connects to a local AI model (Ollama). Ever
 
 2. **Set up the Python environment**:
    ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
@@ -58,6 +61,8 @@ Built with:
 - **🧠 Sentence Transformers** for semantic memory search
 - **🦙 Ollama** for local AI model hosting
 - **📄 JSON** for simple, transparent data storage
+- **✨ Rich** for beautiful terminal output and proper input handling
+- **🎨 Termcolor** for colored console output
 
 ## 📁 File Structure
 
@@ -68,9 +73,19 @@ Built with:
 - **`src/python/the-spellbook-bee.json`** - Rebecca's personal memory data (not tracked in git)
 - **`src/python/chat-history.json`** - Conversation history for context and continuity (not tracked in git)
 
+### Test Files
+- **`tests/run_tests.py`** - Main test runner
+- **`tests/test_core.py`** - Core functionality tests
+- **`tests/test_data.py`** - Data validation tests
+- **`tests/test_config.py`** - Configuration tests
+- **`tests/test_kairos_system.py`** - System integration tests
+- **`tests/test_api_quick.py`** - API quick tests
+
 ### Configuration Files
-- **`package.json`** - Project configuration and dependencies
+- **`package.json`** - Project configuration and npm scripts
 - **`requirements.txt`** - Python dependencies
+- **`tsconfig.json`** - TypeScript configuration (for future frontend)
+- **`eslint.config.mjs`** - ESLint configuration
 
 ## ⚡ Commands
 
@@ -83,11 +98,34 @@ npm test           # Run complete test suite
 npm run test:core  # Run core functionality tests
 npm run test:data  # Run data validation tests
 npm run test:config # Run configuration tests
+npm run test:system # Run system integration tests
+npm run test:api   # Run API quick tests
 npm run test:quick # Quick syntax validation
 
 npm run setup      # Initialize frontend project
 npm run dev        # Run backend + frontend concurrently
 ```
+
+## 🐛 Debugging & Troubleshooting
+
+### Debug Mode
+Enable detailed debugging output:
+```bash
+KAIROS_DEBUG=true npm start
+```
+
+### Common Issues
+- **Response timeouts**: Kairos has intelligent timeout management (2 minutes for streaming)
+- **Hallucinations**: Automatically detected and removed - you'll see `🚨 DETECTED HALLUCINATIONS:` if any occur
+- **Terminal issues**: Rich framework handles input/output properly across platforms
+- **Memory issues**: Use `npm run reset` to clear all memories and start fresh
+
+### Response Quality Monitoring
+Kairos automatically detects and reports:
+- **Hallucinated user input** (fake "You:" messages)
+- **Repetitive content** (words repeated >30% of the time)
+- **Incomplete responses** (ending with commas/dashes)
+- **Very short responses** (may indicate incomplete generation)
 
 ## 🔮 Future Plans
 

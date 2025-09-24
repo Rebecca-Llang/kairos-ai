@@ -53,11 +53,9 @@ def test_memory_structure():
         with open('src/python/the-spellbook.json', 'r') as f:
             memory = json.load(f)
         
-        # Should be a list
         if isinstance(memory, list):
             print("✅ Memory file is a list")
             
-            # If not empty, check structure
             if memory:
                 first_memory = memory[0]
                 if isinstance(first_memory, dict):
@@ -84,11 +82,9 @@ def test_chat_structure():
         with open('src/python/chat-history.json', 'r') as f:
             history = json.load(f)
         
-        # Should be a list
         if isinstance(history, list):
             print("✅ Chat history is a list")
             
-            # If not empty, check structure
             if history:
                 first_msg = history[0]
                 if isinstance(first_msg, dict) and 'role' in first_msg and 'content' in first_msg:

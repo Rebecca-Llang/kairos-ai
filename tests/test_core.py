@@ -23,15 +23,12 @@ def test_imports():
     """Test that core imports work."""
     print("\n📦 Testing imports...")
     try:
-        # Add src/python to path
         sys.path.insert(0, 'src/python')
         
-        # Test our module can be imported (this will fail if dependencies missing)
         try:
             import kairos_ai
             print("✅ kairos_ai module imports")
             
-            # Test it has main class
             if hasattr(kairos_ai, 'KairosAI'):
                 print("✅ KairosAI class exists")
                 return True
