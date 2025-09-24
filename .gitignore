@@ -20,5 +20,5 @@ node_modules/
 *.vsix
 
 # Chat hitory and spellbook
-.chat-history
-.spellbook
+chat-history.json
+the-spellbook.json
