@@ -19,6 +19,12 @@ node_modules/
 .vscode-test/
 *.vsix
 
-# Chat hitory and spellbook
+# Personal data files - DO NOT COMMIT
+src/python/chat-history.json
+src/python/the-spellbook.json
+src/python/the-spellbook-bee.json
 chat-history.json
 the-spellbook.json
+the-spellbook-bee.json
+*.chat-history
+*.spellbook
