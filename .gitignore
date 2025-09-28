@@ -67,6 +67,16 @@ data/templates/chat-history.json
 # Keep template files but not personal data
 !data/templates/the-spellbook.json
 
+# Personal data files - DO NOT COMMIT (legacy paths)
+src/python/chat-history.json
+src/python/the-spellbook.json
+src/python/the-spellbook-bee.json
+chat-history.json
+the-spellbook.json
+the-spellbook-bee.json
+*.chat-history
+*.spellbook
+
 # Environment variables
 .env
 .env.local
@@ -105,7 +115,3 @@ yarn-error.log*
 dist/
 build/
 out/
-
-# Chat history and spellbook (generated files)
-.chat-history
-.spellbook
