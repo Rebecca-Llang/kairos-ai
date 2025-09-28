@@ -1,0 +1,6 @@
+// Global CSS styles and Tailwind imports
+// This file contains custom CSS variables, animations, and global styles
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

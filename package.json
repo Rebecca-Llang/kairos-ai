@@ -12,7 +12,13 @@
     "migrate": "cd src/python && PYTHONPATH=. python3 migrations/migrate_json_to_sqlite.py",
     "debug": "PYTHONPATH=src/python KAIROS_DEBUG=true python3 src/python/kairos_ai.py",
     "lint": "PYTHONPATH=src/python python3 -m flake8 src/python/",
-    "format": "PYTHONPATH=src/python python3 -m black src/python/"
+    "format": "PYTHONPATH=src/python python3 -m black src/python/",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "dev:full": "concurrently \"npm run start\" \"npm run dev\"",
+    "lint:frontend": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "type-check": "tsc --noEmit"
   },
   "keywords": [
     "AI",
@@ -29,26 +35,33 @@
   "author": "Rebecca Lang (Rebecca-Llang) and Red (ZanKris)",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "@tanstack/react-query": "^5.90.2",
+    "concurrently": "^8.2.2",
+    "lucide-react": "^0.544.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-hook-form": "^7.63.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.9.3"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.4.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "autoprefixer": "^10.4.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.21",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "postcss": "^8.4.0",
-    "prettier": "^3.0.0",
-    "tailwindcss": "^3.3.0",
-    "typescript": "^5.0.0",
-    "vite": "^5.0.0",
-    "vitest": "^0.34.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/jest-dom": "^6.0.0",
-    "@testing-library/user-event": "^14.4.0"
+    "postcss": "^8.5.6",
+    "prettier": "^3.6.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2",
+    "vite": "^5.4.20",
+    "vitest": "^0.34.0"
   }
 }
