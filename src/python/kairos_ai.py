@@ -13,21 +13,24 @@ from typing import List, Dict, Any, Tuple, Optional
 from termcolor import colored
 from sentence_transformers import SentenceTransformer, util
 import torch
+from database.operations import (
+    init_db, add_chat_message, get_chat_history, add_memory, get_memory_by_key, 
+    get_all_memories, clear_chat_history, delete_memory_by_key, get_database_stats
+)
+from database.models import ChatMessage, SpellbookMemory
 
 # Constants and Paths
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
-HISTORY_PATH = os.path.join(BASE_PATH, "chat-history.json")
-PROMPT_PATH = os.path.join(BASE_PATH, "prompt.yaml")
-MEMORY_PATH = os.path.join(BASE_PATH, "the-spellbook.json")
-MODEL_NAME = "llama3.2"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(BASE_PATH))
+DB_PATH = os.path.join(PROJECT_ROOT, "data", "kairos.db")
+PROMPT_PATH = os.path.join(PROJECT_ROOT, "config", "prompt.yaml")
+SCHEMA_PATH = os.path.join(BASE_PATH, "database", "schema.sql")
+MODEL_NAME = "llama3.2"  # Try "phi4-mini" or "qwen2.5:3b" for faster responses
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MAX_MEMORY_ITEMS = 30
 RELEVANT_MEMORIES_COUNT = 5
 
-# Debug mode - set to True only for development
 DEBUG_MODE = os.getenv("KAIROS_DEBUG", "false").lower() == "true"
-
-# Initialize embedding model
 try:
     embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 except Exception as e:
@@ -41,6 +44,10 @@ class KairosAI:
     
     def __init__(self):
         """Initialize Kairos AI with personality and memory systems."""
+        if not init_db(DB_PATH, SCHEMA_PATH):
+            print(colored("❌ Failed to initialize database", "red"))
+            exit(1)
+        
         self.persona = self.load_prompt()
         self.history = self.load_chat_history()
         self.memory = self.load_memory()
@@ -67,51 +74,46 @@ class KairosAI:
             exit(1)
 
     def load_chat_history(self) -> List[Dict[str, Any]]:
-        """Load previous chat history."""
-        if not os.path.exists(HISTORY_PATH):
-            return []
+        """Load previous chat history from database."""
         try:
-            with open(HISTORY_PATH, "r", encoding='utf-8') as f:
-                data = json.load(f)
-                return data if isinstance(data, list) else []
+            return get_chat_history(db_path=DB_PATH)
         except Exception as e:
             print(colored(f"⚠️ Chat history corrupted, starting fresh: {e}", "yellow"))
             return []
 
-    def save_chat_history(self) -> None:
-        """Save current chat history to file."""
+    def save_chat_message(self, role: str, content: str) -> None:
+        """Save a single chat message to database."""
         try:
-            with open(HISTORY_PATH, "w", encoding='utf-8') as f:
-                json.dump(self.history, f, indent=2, ensure_ascii=False)
+            add_chat_message(role=role, content=content, db_path=DB_PATH)
         except Exception as e:
-            print(colored(f"⚠️ Failed to save chat history: {e}", "yellow"))
+            print(colored(f"⚠️ Failed to save chat message: {e}", "yellow"))
 
     def load_memory(self) -> List[Dict[str, Any]]:
-        """Load Kairos's memory from the-spellbook.json."""
-        if not os.path.exists(MEMORY_PATH):
-            return []
+        """Load Kairos's memory from database."""
         try:
-            with open(MEMORY_PATH, "r") as f:
-                data = json.load(f)
-                # Normalize memory format
-                for item in data:
-                    for key in item:
-                        if not isinstance(item[key], dict):
-                            item[key] = {"value": item[key], "priority": 5, "embedding": None}
-                        elif "priority" not in item[key]:
-                            item[key]["priority"] = 5
-                        if "embedding" not in item[key]:
-                            item[key]["embedding"] = None
-                return data
+            memories = get_all_memories(db_path=DB_PATH)
+            # Convert database format to expected format
+            formatted_memories = []
+            for memory in memories:
+                formatted_memories.append({
+                    memory['memory_key']: {
+                        'value': memory['memory_value'],
+                        'priority': memory['priority'],
+                        'embedding': memory.get('embedding')
+                    }
+                })
+            return formatted_memories
         except Exception as e:
-            print(colored(f"❌ Error reading memory file: {e}", "red"))
+            print(colored(f"⚠️ Memory corrupted, starting fresh: {e}", "yellow"))
             return []
 
-    def save_memory(self) -> None:
-        """Save Kairos's memory to the-spellbook.json."""
-        with open(MEMORY_PATH, "w") as f:
-            json.dump(self.memory, f, indent=2)
-
+    def save_memory(self, memory_key: str, memory_value: str, priority: int = 5, embedding: Optional[List[float]] = None) -> None:
+        """Save a single memory to database."""
+        try:
+            add_memory(memory_key=memory_key, memory_value=memory_value, priority=priority, embedding=embedding, db_path=DB_PATH)
+        except Exception as e:
+            print(colored(f"⚠️ Failed to save memory: {e}", "yellow"))
+  
     def prune_memory(self) -> None:
         """Keep only the highest priority memory items if exceeded max limit."""
         if len(self.memory) <= MAX_MEMORY_ITEMS:
@@ -122,36 +124,45 @@ class KairosAI:
         print(colored(f"🧹 Memory pruned to top {MAX_MEMORY_ITEMS} items.", "yellow"))
 
     def build_memory_context(self) -> str:
-        """Create a text representation of Kairos's memory."""
+        """Create a text representation of Kairos's memory (limited for performance)."""
         if not self.memory:
             return "[No memories stored yet]"
+        
+        # Limit to top 10 memories by priority to prevent prompt bloat
+        sorted_memories = sorted(
+            self.memory, 
+            key=lambda x: list(x.values())[0].get("priority", 5), 
+            reverse=True
+        )[:10]
             
         return "\n".join(
             f"{key.capitalize()}: {entry['value']} (priority {entry['priority']})"
-            for obj in self.memory for key, entry in obj.items()
+            for obj in sorted_memories for key, entry in obj.items()
         )
 
     def build_chat_history_context(self) -> str:
-        """Create a text representation of chat history."""
+        """Create a text representation of chat history (limited to recent messages)."""
         if not self.history:
             return "[No conversation history]"
-            
+        
+        # Limit to last 10 messages to prevent prompt bloat
+        recent_history = self.history[-10:]
         return "\n".join(
             f"{'You' if msg['role'] == 'user' else 'Kairos'}: {msg['content']}" 
-            for msg in self.history
+            for msg in recent_history
         )
 
     def extract_memory_from_message(self, user_message: str) -> Tuple[bool, Optional[str]]:
         """Extract memory commands from user messages."""
         match = re.match(
-            r'remember:\s*\"(?P<key>[\w\s]+)\"\s*\"(?P<value>[\w\s]+)\"(?:\s*priority:(?P<priority>\d+))?', 
+            r'remember:\s*\"(?P<key>[^"]+)\"\s*\"(?P<value>[^"]+)\"(?:\s*priority:(?P<priority>\d+))?', 
             user_message, 
             re.IGNORECASE
         )
         
         if not match:
             if "remember:" in user_message:
-                return True, "⚠️ Format error. Use: remember: \"key\" \"value\" priority:7"
+                return True, "⚠️ Format error. Use: remember: \"your_key_name\" \"memory and details here\" priority:7"
             return False, None
             
         key = match.group("key").strip().lower()
@@ -159,15 +170,17 @@ class KairosAI:
         priority = int(match.group("priority") or 5)
         embedding = embedding_model.encode(value).tolist()
 
-        # Update or create memory entry
+        # Save memory to database
+        self.save_memory(key, value, priority, embedding)
+        
+        # Update local memory for immediate use
         existing = next((item for item in self.memory if key in item), None)
         if existing:
             existing[key] = {"value": value, "priority": priority, "embedding": embedding}
         else:
             self.memory.append({key: {"value": value, "priority": priority, "embedding": embedding}})
-
+        
         self.prune_memory()
-        self.save_memory()
         return True, f"Got it. I'll remember your {key} is {value} (priority {priority})."
 
     def get_relevant_memories(self, user_message: str) -> List[str]:
@@ -200,6 +213,7 @@ class KairosAI:
         sorted_candidates = sorted(candidates, key=lambda x: x[1], reverse=True)
         return [entry for entry, _ in sorted_candidates[:RELEVANT_MEMORIES_COUNT]]
 
+
     def generate_response(self, user_message: str) -> str:
         """Generate Kairos's response based on persona, memory, and history."""
         memory_context = self.build_memory_context()
@@ -221,6 +235,7 @@ class KairosAI:
             f"You: {user_message}\n"
             "Kairos:"
         )
+        
 
         # Debug output - only show in debug mode
         if DEBUG_MODE:
@@ -234,7 +249,7 @@ class KairosAI:
             response = requests.post(
                 OLLAMA_URL, 
                 json={"model": MODEL_NAME, "prompt": full_prompt, "stream": False},
-                timeout=30
+                timeout=60
             )
             response.raise_for_status()
             return response.json()["response"].strip()
@@ -242,7 +257,7 @@ class KairosAI:
         except requests.exceptions.ConnectionError:
             return "⚠️ Cannot connect to Ollama. Please ensure it's running on localhost:11434"
         except requests.exceptions.Timeout:
-            return "⚠️ Request timed out. The model may be overloaded."
+            return "⚠️ Request timed out. Try reducing chat history or using a smaller model."
         except requests.exceptions.RequestException as e:
             return f"⚠️ Network error: {e}"
         except Exception as e:
@@ -250,12 +265,51 @@ class KairosAI:
 
     def add_to_history(self, role: str, content: str) -> None:
         """Add a new message to the chat history."""
+        # Add to local history for immediate use
         self.history.append({
             "role": role, 
             "content": content, 
             "timestamp": datetime.now().isoformat()
         })
-        self.save_chat_history()
+        # Save to database
+        self.save_chat_message(role, content)
+
+
+def handle_db_command(command: str, kairos: KairosAI) -> None:
+    """Handle database management commands."""
+    cmd = command.lower().strip()
+    
+    if cmd == "db:stats":
+        stats = get_database_stats(DB_PATH)
+        print(colored("📊 Database Statistics:", "yellow"))
+        print(colored(f"  Chat messages: {stats.get('chat_history_count', 0)}", "cyan"))
+        print(colored(f"  Memories: {stats.get('spellbook_memories_count', 0)}", "cyan"))
+        
+    elif cmd == "db:clear_chat":
+        if clear_chat_history(DB_PATH):
+            kairos.history = []
+            print(colored("✅ Chat history cleared", "green"))
+        else:
+            print(colored("❌ Failed to clear chat history", "red"))
+            
+    elif cmd.startswith("db:delete_memory "):
+        memory_key = cmd.replace("db:delete_memory ", "").strip()
+        if delete_memory_by_key(memory_key, DB_PATH):
+            # Remove from local memory
+            kairos.memory = [item for item in kairos.memory if memory_key not in item]
+            print(colored(f"✅ Memory '{memory_key}' deleted", "green"))
+        else:
+            print(colored(f"❌ Failed to delete memory '{memory_key}'", "red"))
+            
+    elif cmd == "db:help":
+        print(colored("🗄️ Database Commands:", "yellow"))
+        print(colored("  db:stats - Show database statistics", "cyan"))
+        print(colored("  db:clear_chat - Clear all chat history", "cyan"))
+        print(colored("  db:delete_memory <key> - Delete specific memory", "cyan"))
+        print(colored("  db:help - Show this help", "cyan"))
+        
+    else:
+        print(colored("❌ Unknown database command. Use 'db:help' for available commands.", "red"))
 
 
 def confirm_consent() -> bool:
@@ -296,6 +350,11 @@ def main():
         if user_message.lower() in ["exit", "quit", "goodbye"]:
             print(colored("Kairos: Catch you soon, starlight 🌌", "magenta"))
             break
+        
+        # Database management commands
+        if user_message.lower().startswith("db:"):
+            handle_db_command(user_message, kairos)
+            continue
 
         # Add user message to history
         kairos.add_to_history("user", user_message)

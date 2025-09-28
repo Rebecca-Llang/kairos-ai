@@ -1,6 +1,5 @@
 """
-Simple tests for database models: ChatMessage and SpellbookMemory.
-Uses only stdlib unittest and temporary objects (no DB IO here).
+Unit tests for database models.
 """
 import unittest
 from typing import Any

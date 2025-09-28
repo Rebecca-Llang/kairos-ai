@@ -1,5 +1,5 @@
 """
-Integration-light tests for operations using a temporary SQLite DB file.
+Integration tests for database operations.
 """
 import os
 import tempfile
@@ -19,12 +19,10 @@ from database.operations import (
 
 class TestOperations(unittest.TestCase):
     def setUp(self) -> None:
-        # Create a temporary database path
         self.tmp_db = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
         self.db_path = self.tmp_db.name
         self.tmp_db.close()
 
-        # Initialize the database
         schema_path = os.path.join(os.path.dirname(__file__), "..", "database", "schema.sql")
         schema_path = os.path.abspath(schema_path)
         ok = init_db(self.db_path, schema_path)

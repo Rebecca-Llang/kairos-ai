@@ -1,7 +1,3 @@
-# This file defines data models for chat messages and spellbook memories.
-# It includes type-safe dataclasses, validation, normalization helpers,
-# and utilities to convert to/from database rows and plain dicts.
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field, asdict
@@ -17,7 +13,7 @@ def normalize_memory_key(key: str) -> str:
     return key.strip().lower()
 
 
-# Canonical memory keys supported by the app. Custom keys are allowed too.
+# Canonical memory keys supported by the app
 MEMORY_KEYS: List[str] = [
     "name",
     "preferred_name",
@@ -49,7 +45,6 @@ class ChatMessage:
 
     @staticmethod
     def from_row(row: Any) -> "ChatMessage":
-        # row can be sqlite3.Row or dict
         r: Dict[str, Any] = dict(row)
         return ChatMessage(
             id=r.get("id"),

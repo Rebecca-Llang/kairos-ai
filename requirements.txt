@@ -5,9 +5,14 @@ termcolor>=2.3.0
 sentence-transformers>=2.2.2
 torch>=2.0.0
 
-# API server dependencies
-flask>=2.3.0
-flask-cors>=4.0.0
+# Database
+sqlite3  # Built into Python
+
+# Development and testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=23.0.0
+flake8>=6.0.0
 
 # Optional but recommended
 python-dotenv>=1.0.0  # for environment variable management

@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime
 from typing import Optional, List, Dict, Any, Callable, TypeVar
-from database.connection import DbConnection
+from .connection import DbConnection
 
 T = TypeVar("T")
 
