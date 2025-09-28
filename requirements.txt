@@ -4,6 +4,7 @@ pyyaml>=6.0.1
 termcolor>=2.3.0
 sentence-transformers>=2.2.2
 torch>=2.0.0
+rich>=13.0.0
 
 # Database
 sqlite3  # Built into Python

@@ -48,4 +48,4 @@ echo "Verifying urllib3 version..."
 pip show urllib3
 
 echo "Installation complete! The SSL warning should be resolved."
-echo "You can now run your application: python src/python/kairos-ai.py"
+echo "You can now run your application: python src/python/kairos_ai.py"
