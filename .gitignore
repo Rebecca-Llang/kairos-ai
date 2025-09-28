@@ -1,25 +1,73 @@
-# Python-related
+# Python
 __pycache__/
-*.pyc
-*.pyo
-.venv/
-
-# Logs and temporary files
-*.log
-*.tmp
-
-# Local configuration files
-.vscode/
-.env
-
-# Compiled files
-out/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
 dist/
-node_modules/
-.vscode-test/
-*.vsix
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Personal data files - DO NOT COMMIT
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database files (keep templates, ignore generated)
+data/kairos.db*
+data/kairos.db-shm
+data/kairos.db-wal
+
+# Backup files (contain personal data)
+data/backups/
+data/backups/*.json
+
+# Personal data files (contain user's personal information)
+data/templates/the-spellbook-bee.json
+data/templates/chat-history.json
+
+# Keep template files but not personal data
+!data/templates/the-spellbook.json
+
+# Personal data files - DO NOT COMMIT (legacy paths)
 src/python/chat-history.json
 src/python/the-spellbook.json
 src/python/the-spellbook-bee.json
@@ -28,3 +76,42 @@ the-spellbook.json
 the-spellbook-bee.json
 *.chat-history
 *.spellbook
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# Node.js (for future frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Build outputs
+dist/
+build/
+out/

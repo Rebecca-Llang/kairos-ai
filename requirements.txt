@@ -6,4 +6,17 @@ sentence-transformers>=2.2.2
 torch>=2.0.0
 rich>=13.0.0
 
-# Note: torch is required by sentence-transformers (used for AI memory embeddings)
+# Database
+sqlite3  # Built into Python
+
+# Development and testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Optional but recommended
+python-dotenv>=1.0.0  # for environment variable management
+
+# Specific version of urllib3 for SSL compatibility
+urllib3<2.0.0
