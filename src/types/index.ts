@@ -1,6 +1,3 @@
-// TypeScript type definitions - All application types in one place
-// This file will contain interfaces and types for chat, memories, API responses, and more
-
 // Chat types
 export interface ChatMessage {
   id?: number
@@ -59,4 +56,17 @@ export interface PaginationParams {
   page: number
   limit: number
   search?: string
+}
+
+// Navigation types
+export interface NavigationItem {
+  name: string
+  href: string
+}
+
+export interface Contact {
+  title: string
+  details: string
+  icon: React.ElementType
+  link: string
 }

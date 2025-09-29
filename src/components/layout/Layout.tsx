@@ -1,10 +1,27 @@
-// Layout component - Main app layout with header, sidebar, and content area
-// This file will contain the main layout structure, navigation, and responsive design
-
 import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Header from './Header'
+import Footer from './Footer'
+import Chat from '@/pages/Chat'
+import Persona from '@/pages/Persona'
+import Spellbook from '@/pages/Spellbook'
+import History from '@/pages/History'
 
 const Layout: React.FC = () => {
-  return <div>{/* Layout structure will be implemented here */}</div>
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Chat />} />
+          <Route path="/persona" element={<Persona />} />
+          <Route path="/spellbook" element={<Spellbook />} />
+          <Route path="/history" element={<History />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
+  )
 }
 
 export default Layout

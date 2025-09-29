@@ -1,7 +1,7 @@
 // Custom React hooks - All application hooks in one place
 // This file will contain hooks for chat, memories, theme, and API interactions
 
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 
 // Chat functionality hook
 export const useChat = () => {
