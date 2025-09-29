@@ -18,7 +18,9 @@
     "preview": "vite preview",
     "dev:full": "concurrently \"npm run start\" \"npm run dev\"",
     "lint:frontend": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test:api": "PYTHONPATH=src/python python3 src/python/tests/test_api.py",
+    "test:api-server": "PYTHONPATH=src/python python3 src/python/tests/test_api_server.py"
   },
   "keywords": [
     "AI",
