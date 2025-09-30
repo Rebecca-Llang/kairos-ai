@@ -10,18 +10,18 @@ const Footer: React.FC = () => {
 
   return (
     <footer className='bg-dark-matter border-t border-gray-700 mt-8 constellation-bg'>
-      <div className='container mx-auto px-6 py-4'>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+      <div className='container mx-auto px-4 sm:px-6 py-6 sm:py-8'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8'>
           <div>
-            <h3 className='text-sm font-semibold text-starlight mb-2'>
+            <h3 className='text-sm font-semibold text-starlight mb-3 sm:mb-4'>
               Navigation
             </h3>
-            <nav className='flex flex-col space-y-1'>
+            <nav className='flex flex-col space-y-2'>
               {items.map(item => (
                 <Link
                   key={item.href}
                   to={item.href}
-                  className='text-sm text-moonbeam hover:text-nebula transition-colors duration-200'
+                  className='text-sm text-moonbeam hover:text-nebula transition-colors duration-200 py-1'
                 >
                   {item.name}
                 </Link>
@@ -30,17 +30,17 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h3 className='text-sm font-semibold text-starlight mb-2'>
+            <h3 className='text-sm font-semibold text-starlight mb-3 sm:mb-4'>
               Connect
             </h3>
-            <div className='space-y-1'>
+            <div className='space-y-2'>
               {contact.map(item => {
                 const Icon = item.icon;
                 return (
                   <Link
                     key={item.link}
                     to={item.link}
-                    className='flex items-center space-x-3 text-sm text-moonbeam hover:text-nebula transition-colors duration-200 group'
+                    className='flex items-center space-x-3 text-sm text-moonbeam hover:text-nebula transition-colors duration-200 group py-1'
                   >
                     <Icon className='w-4 h-4 group-hover:text-nebula transition-colors duration-200' />
                     <span>{item.title}</span>
@@ -50,20 +50,22 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          <div>
-            <h3 className='text-sm font-semibold text-starlight mb-2'>
+          <div className='sm:col-span-2 lg:col-span-1'>
+            <h3 className='text-sm font-semibold text-starlight mb-3 sm:mb-4'>
               About Kairos
             </h3>
-            <p className='text-sm text-moonbeam mb-2'>
+            <p className='text-sm text-moonbeam mb-3 sm:mb-4 leading-relaxed'>
               An AI companion for creative, introspective, and emotionally
               intelligent conversations.
             </p>
-            <p className='text-xs text-moonbeam'>
-              Built with 💜 by Rebecca Lang
-            </p>
-            <p className='text-xs text-moonbeam mt-1'>
-              © 2024 Kairos AI. All rights reserved.
-            </p>
+            <div className='space-y-1'>
+              <p className='text-xs text-moonbeam'>
+                Built with 💜 by Rebecca Lang
+              </p>
+              <p className='text-xs text-moonbeam'>
+                © 2024 Kairos AI. All rights reserved.
+              </p>
+            </div>
           </div>
         </div>
       </div>

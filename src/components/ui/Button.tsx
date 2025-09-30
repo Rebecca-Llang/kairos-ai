@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-nebula hover:bg-indigo-600 text-white shadow-glow hover:shadow-glow-lg',
+          'bg-user-message hover:bg-indigo-950 text-message-text shadow-glow hover:shadow-glow-lg',
         destructive: 'bg-red-600 text-white shadow-sm hover:bg-red-700',
         outline:
           'border border-gray-700 bg-dark-matter hover:bg-stardust text-starlight hover:border-nebula',
@@ -18,18 +18,12 @@ const buttonVariants = cva(
           'bg-dark-matter hover:bg-stardust text-starlight border border-gray-700 hover:border-nebula',
         ghost: 'hover:bg-stardust hover:text-starlight',
         link: 'text-nebula underline-offset-4 hover:underline',
-        cosmic: 'bg-cosmic-blue hover:bg-blue-600 text-white shadow-glow-teal',
-        aurora: 'bg-aurora-teal hover:bg-teal-600 text-white shadow-glow-teal',
-        meteor:
-          'bg-meteor-gold hover:bg-yellow-500 text-deep-space shadow-glow',
-        stellar:
-          'bg-stellar-cyan hover:bg-cyan-600 text-white shadow-glow-teal',
       },
       size: {
-        default: 'h-9 px-4 py-2',
-        sm: 'h-8 rounded-md px-3 text-xs',
-        lg: 'h-10 rounded-md px-8',
-        icon: 'h-9 w-9',
+        default: 'h-10 sm:h-9 px-4 py-2 min-h-[44px]',
+        sm: 'h-9 sm:h-8 rounded-md px-3 text-xs min-h-[44px] sm:min-h-[32px]',
+        lg: 'h-12 sm:h-10 rounded-md px-8 min-h-[44px]',
+        icon: 'h-10 w-10 sm:h-9 sm:w-9 min-h-[44px] min-w-[44px]',
       },
     },
     defaultVariants: {

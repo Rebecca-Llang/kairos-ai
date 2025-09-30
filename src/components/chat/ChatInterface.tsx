@@ -21,35 +21,43 @@ const ChatInterface: React.FC = () => {
   } = useChat();
 
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 h-full'>
+    <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 h-full'>
       {/* Chat Messages */}
       <div className='lg:col-span-2'>
-        <div className='bg-dark-matter rounded-xl border border-gray-700 shadow-lg h-[600px] flex flex-col overflow-hidden'>
+        <div className='bg-dark-matter rounded-xl border border-gray-700 shadow-lg h-[70vh] sm:h-[75vh] lg:h-[600px] flex flex-col overflow-hidden'>
           {/* Header */}
-          <div className='p-4 border-b border-gray-700 bg-stardust rounded-t-xl'>
+          <div className='p-3 sm:p-4 border-b border-gray-700 bg-stardust rounded-t-xl'>
             <div className='flex items-center justify-between'>
-              <div className='flex items-center space-x-3'>
-                <h2 className='text-xl font-semibold text-starlight'>
+              <div className='flex items-center space-x-2 sm:space-x-3'>
+                <h2 className='text-lg sm:text-xl font-semibold text-starlight'>
                   Conversation
                 </h2>
               </div>
-              <div className='flex items-center space-x-2'>
+              <div className='flex items-center space-x-1 sm:space-x-2'>
                 <button
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                  className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                     includeMemories
-                      ? 'bg-nebula text-white shadow-glow'
-                      : 'bg-dark-matter text-moonbeam hover:bg-stardust hover:text-starlight'
+                      ? 'bg-user-message text-message-text shadow-glow'
+                      : 'bg-gray-600 text-gray-200 hover:bg-gray-500 hover:text-white'
                   }`}
                   onClick={() => setIncludeMemories(!includeMemories)}
+                  aria-label={`${includeMemories ? 'Disable' : 'Enable'} memory inclusion in responses`}
                 >
-                  {includeMemories ? 'Memories On' : 'Memories Off'}
+                  <span className='hidden sm:inline'>
+                    {includeMemories ? 'Memories On' : 'Memories Off'}
+                  </span>
+                  <span className='sm:hidden'>
+                    {includeMemories ? 'On' : 'Off'}
+                  </span>
                 </button>
                 <button
-                  className='px-3 py-1 bg-aurora-teal text-white rounded-full text-xs font-medium hover:bg-teal-600 transition-colors disabled:opacity-50 shadow-glow-teal'
+                  className='px-2 sm:px-3 py-1 bg-teal-700 text-white rounded-full text-xs font-medium hover:bg-teal-800 transition-colors disabled:opacity-50 shadow-glow-teal'
                   onClick={loadChatHistory}
                   disabled={isLoading}
+                  aria-label='Refresh chat history'
                 >
-                  {isLoading ? 'Loading...' : 'Refresh'}
+                  <span className='hidden sm:inline'>Refresh</span>
+                  <span className='sm:hidden'>↻</span>
                 </button>
               </div>
             </div>
@@ -73,17 +81,17 @@ const ChatInterface: React.FC = () => {
           )}
 
           {/* Messages */}
-          <div className='flex-1 overflow-y-auto p-4 space-y-4'>
+          <div className='flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4'>
             {messages.length === 0 ? (
               <div className='flex items-center justify-center h-full'>
-                <div className='text-center animate-twinkle'>
-                  <div className='w-16 h-16 mx-auto mb-4 bg-dark-matter rounded-full flex items-center justify-center animate-float'>
-                    <span className='text-2xl'>✨</span>
+                <div className='text-center animate-twinkle px-4'>
+                  <div className='w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-dark-matter rounded-full flex items-center justify-center animate-float'>
+                    <span className='text-xl sm:text-2xl'>✨</span>
                   </div>
-                  <h3 className='text-lg font-medium text-starlight mb-2'>
+                  <h3 className='text-base sm:text-lg font-medium text-starlight mb-2'>
                     Start a conversation
                   </h3>
-                  <p className='text-sm text-moonbeam'>
+                  <p className='text-xs sm:text-sm text-moonbeam'>
                     Send a message below to begin chatting with Kairos
                   </p>
                 </div>
@@ -96,21 +104,19 @@ const ChatInterface: React.FC = () => {
                     className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-slideUp`}
                   >
                     <div
-                      className={`max-w-[80%] p-3 rounded-lg ${
-                        message.role === 'user'
-                          ? 'bg-nebula text-white shadow-glow'
-                          : 'bg-stardust text-starlight border border-gray-600 shadow-lg'
+                      className={`max-w-[85%] sm:max-w-[80%] p-2 sm:p-3 rounded-lg ${
+                        message.role === 'user' ? 'message-user' : 'message-ai'
                       }`}
                     >
-                      <div className='flex items-center space-x-2 mb-1'>
-                        <span className='text-xs font-medium opacity-70'>
+                      <div className='flex items-center space-x-1 sm:space-x-2 mb-1'>
+                        <span className='text-xs font-medium message-meta'>
                           {message.role === 'user' ? 'You' : 'Kairos'}
                         </span>
-                        <span className='text-xs opacity-50'>
+                        <span className='text-xs message-meta-secondary'>
                           {formatTimestamp(message.timestamp)}
                         </span>
                       </div>
-                      <p className='text-sm leading-relaxed whitespace-pre-wrap'>
+                      <p className='text-xs sm:text-sm leading-relaxed whitespace-pre-wrap message-text'>
                         {message.content}
                       </p>
                     </div>
@@ -120,31 +126,31 @@ const ChatInterface: React.FC = () => {
                 {/* Thinking Indicator */}
                 {isThinking && (
                   <div className='flex justify-start animate-slideUp'>
-                    <div className='max-w-[80%] p-3 rounded-lg bg-stardust text-starlight border border-gray-600 shadow-lg'>
+                    <div className='max-w-[85%] sm:max-w-[80%] p-2 sm:p-3 rounded-lg message-thinking'>
                       <div className='flex items-center space-x-2 mb-1'>
-                        <span className='text-xs font-medium opacity-70'>
+                        <span className='text-xs font-medium message-meta'>
                           Kairos
                         </span>
-                        <span className='text-xs opacity-50'>
+                        <span className='text-xs message-meta-secondary'>
                           is thinking...
                         </span>
                       </div>
                       <div className='flex items-center space-x-1'>
                         <div className='flex space-x-1'>
                           <div
-                            className='w-2 h-2 bg-nebula rounded-full animate-pulse'
+                            className='w-2 h-2 bg-ai-accent rounded-full animate-pulse'
                             style={{ animationDelay: '0ms' }}
                           ></div>
                           <div
-                            className='w-2 h-2 bg-nebula rounded-full animate-pulse'
+                            className='w-2 h-2 bg-ai-accent rounded-full animate-pulse'
                             style={{ animationDelay: '150ms' }}
                           ></div>
                           <div
-                            className='w-2 h-2 bg-nebula rounded-full animate-pulse'
+                            className='w-2 h-2 bg-ai-accent rounded-full animate-pulse'
                             style={{ animationDelay: '300ms' }}
                           ></div>
                         </div>
-                        <span className='text-xs opacity-60 ml-2'>
+                        <span className='text-xs message-meta-secondary ml-2'>
                           Processing your message...
                         </span>
                       </div>
@@ -159,8 +165,8 @@ const ChatInterface: React.FC = () => {
 
       {/* Chat Input */}
       <div className='lg:col-span-1'>
-        <div className='bg-dark-matter border border-gray-700 rounded-xl p-6 shadow-lg'>
-          <h3 className='text-lg font-semibold text-starlight mb-4'>
+        <div className='bg-dark-matter border border-gray-700 rounded-xl p-4 sm:p-6 shadow-lg'>
+          <h3 className='text-base sm:text-lg font-semibold text-starlight mb-3 sm:mb-4'>
             Send Message
           </h3>
           <form
@@ -170,21 +176,30 @@ const ChatInterface: React.FC = () => {
                 reset();
               }
             })}
-            className='space-y-4'
+            className='space-y-3 sm:space-y-4'
           >
             <div>
+              <label htmlFor='message-input' className='sr-only'>
+                Type your message to Kairos
+              </label>
               <textarea
+                id='message-input'
                 {...register('message', { required: true })}
                 placeholder='Type your message here...'
                 disabled={isSending || isThinking}
-                className='w-full p-3 border border-gray-700 rounded-lg bg-stardust text-white placeholder-moonbeam focus:outline-none focus:ring-2 focus:ring-nebula/20 focus:border-nebula resize-none disabled:opacity-50 disabled:cursor-not-allowed'
-                rows={4}
+                className='w-full p-2 sm:p-3 border border-gray-700 rounded-lg bg-stardust text-white placeholder-moonbeam focus:outline-none focus:ring-2 focus:ring-nebula/20 focus:border-nebula resize-none disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base'
+                rows={3}
+                aria-describedby='message-help'
               />
+              <div id='message-help' className='sr-only'>
+                Enter your message and press Send to chat with Kairos AI
+              </div>
             </div>
             <button
               type='submit'
               disabled={isSending || isThinking}
-              className='w-full bg-nebula text-white hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded-lg font-medium transition-colors shadow-glow hover:shadow-glow-lg'
+              className='w-full bg-user-message text-message-text hover:bg-indigo-950 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 sm:py-3 rounded-lg font-medium transition-colors shadow-glow hover:shadow-glow-lg text-sm sm:text-base min-h-[44px]'
+              aria-label='Send message to Kairos'
             >
               {isSending ? (
                 <span className='flex items-center justify-center'>

@@ -2,19 +2,33 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      xs: '475px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
+        // Core cosmic theme
         'deep-space': '#0a0e27',
         'dark-matter': '#1a1f3a',
         stardust: '#2d3450',
-        nebula: '#6366f1',
-        'cosmic-blue': '#3b82f6',
-        'aurora-teal': '#14b8a6',
-        'aurora-pink': '#ec4899',
-        'meteor-gold': '#fbbf24',
-        'stellar-cyan': '#06b6d4',
         starlight: '#f9fafb',
         moonbeam: '#d1d5db',
+        
+        // Message system (accessibility-focused)
+        'user-message': '#1e1b4b', // indigo-900
+        'ai-message': '#115e59', // teal-800
+        'ai-accent': '#99f6e4', // teal-200
+        'message-text': '#ffffff',
+        'message-meta': '#e5e7eb',
+        
+        // Interactive elements
+        nebula: '#6366f1', // Used for hover states and links
+        'aurora-teal': '#14b8a6', // Accent color for variety
       },
       backgroundImage: {
         constellation:
@@ -42,6 +56,11 @@ module.exports = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.3' },
         },
+      },
+      spacing: {
+        18: '4.5rem',
+        88: '22rem',
+        128: '32rem',
       },
     },
   },

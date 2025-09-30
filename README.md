@@ -105,20 +105,29 @@ npm run dev:full          # Both backend and frontend
 
 # Testing
 npm test                  # All Python tests
+npm run test:frontend     # Frontend tests (watch mode)
+npm run test:frontend:run # Frontend tests (run once)
 npm run test:models       # Model tests
 npm run test:core         # Core operation tests
+npm run test:migration    # Migration tests
 npm run lint:frontend     # Frontend linting
 npm run type-check        # TypeScript checking
 
 # Code Quality
 npm run format            # Format Python code
 npm run format:frontend   # Format frontend code
+npm run format:check      # Check formatting
 npm run lint:fix          # Auto-fix linting issues
+npm run lint              # Python linting
 
-# Database
+# Database & CLI
 npm run migrate           # Run database migrations
 npm run cli               # Run CLI interface
 npm run debug             # Run in debug mode
+
+# Build & Deploy
+npm run build             # Build frontend
+npm run preview           # Preview built frontend
 ```
 
 ## 🔒 Privacy First

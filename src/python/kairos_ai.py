@@ -253,9 +253,13 @@ class KairosAI:
         sorted_candidates = sorted(candidates, key=lambda x: x[1], reverse=True)
         return [entry for entry, _ in sorted_candidates[:RELEVANT_MEMORIES_COUNT]]
 
-    def generate_response(self, user_message: str, include_memories: bool = True) -> str:
+    def generate_response(
+        self, user_message: str, include_memories: bool = True
+    ) -> str:
         """Generate Kairos's response based on persona, memory, and history."""
-        memory_context = self.build_memory_context() if include_memories else "[Memories disabled]"
+        memory_context = (
+            self.build_memory_context() if include_memories else "[Memories disabled]"
+        )
         chat_context = self.build_chat_history_context()
 
         # Build comprehensive prompt for the language model
@@ -360,7 +364,7 @@ def handle_db_command(command: str, kairos: KairosAI) -> None:
 def confirm_consent() -> bool:
     """Get user consent for Kairos to access personal data."""
     # Skip consent prompt in development mode
-    if os.getenv('KAIROS_DEV_MODE') == 'true':
+    if os.getenv("KAIROS_DEV_MODE") == "true":
         print(colored("Development mode: Auto-granting consent", "green"))
         return True
 
