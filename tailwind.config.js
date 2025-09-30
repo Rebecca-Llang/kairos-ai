@@ -18,14 +18,14 @@ module.exports = {
         stardust: '#2d3450',
         starlight: '#f9fafb',
         moonbeam: '#d1d5db',
-        
+
         // Message system (accessibility-focused)
         'user-message': '#1e1b4b', // indigo-900
         'ai-message': '#115e59', // teal-800
         'ai-accent': '#99f6e4', // teal-200
         'message-text': '#ffffff',
         'message-meta': '#e5e7eb',
-        
+
         // Interactive elements
         nebula: '#6366f1', // Used for hover states and links
         'aurora-teal': '#14b8a6', // Accent color for variety
