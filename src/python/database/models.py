@@ -88,11 +88,12 @@ class SpellbookMemory:
             memory_key=r.get("memory_key", ""),
             memory_value=r.get("memory_value", ""),
             priority=r.get("priority", 5),
-            embedding=r.get("embedding"),  # JSON string will be deserialized by ops layer
+            embedding=r.get(
+                "embedding"
+            ),  # JSON string will be deserialized by ops layer
             created_at=r.get("created_at"),
             updated_at=r.get("updated_at"),
         )
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
-

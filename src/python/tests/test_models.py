@@ -1,6 +1,7 @@
 """
 Unit tests for database models.
 """
+
 import unittest
 from typing import Any
 
@@ -20,7 +21,12 @@ class TestModels(unittest.TestCase):
         self.assertFalse(empty.validate())
 
     def test_chat_message_from_row(self):
-        row: dict[str, Any] = {"id": 1, "role": "assistant", "content": "ok", "timestamp": "2025-01-01T00:00:00"}
+        row: dict[str, Any] = {
+            "id": 1,
+            "role": "assistant",
+            "content": "ok",
+            "timestamp": "2025-01-01T00:00:00",
+        }
         msg = ChatMessage.from_row(row)
         self.assertEqual(msg.id, 1)
         self.assertEqual(msg.role, "assistant")
@@ -63,5 +69,3 @@ class TestModels(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-
