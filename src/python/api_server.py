@@ -43,7 +43,7 @@ def chat():
         add_chat_message("user", message, db_path=DB_PATH)
 
         # Generate Kairos response
-        response = kairos.generate_response(message)
+        response = kairos.generate_response(message, include_memories=include_memories)
 
         # Add Kairos response to history
         add_chat_message("assistant", response, db_path=DB_PATH)

@@ -2,8 +2,10 @@
   "name": "kairos-ai",
   "description": "An AI companion for creative, introspective, and emotionally intelligent conversations.",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "start": "source venv/bin/activate && PYTHONPATH=src/python python3 src/python/kairos_ai.py",
+    "start": "source venv/bin/activate && PYTHONPATH=src/python python3 src/python/api_server.py",
+    "cli": "source venv/bin/activate && PYTHONPATH=src/python KAIROS_DEV_MODE=true python3 src/python/kairos_ai.py",
     "test": "source venv/bin/activate && PYTHONPATH=src/python python3 -m unittest discover src/python/tests/ -v",
     "test:models": "source venv/bin/activate && PYTHONPATH=src/python python3 src/python/tests/test_models.py",
     "test:core": "source venv/bin/activate && PYTHONPATH=src/python python3 src/python/tests/test_core_operations.py",
@@ -17,6 +19,9 @@
     "preview": "vite preview",
     "dev:full": "concurrently \"npm run start\" \"npm run dev\"",
     "lint:frontend": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext ts,tsx --fix",
+    "format:frontend": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "type-check": "tsc --noEmit"
   },
   "keywords": [

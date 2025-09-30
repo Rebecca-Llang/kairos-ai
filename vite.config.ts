@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,12 +11,31 @@ export default defineConfig({
     port: 3000,
     open: true, // Automatically open browser
     cors: true, // Enable CORS for API calls
+    hmr: {
+      timeout: 30000, // 30 second HMR timeout
+    },
     proxy: {
       // Proxy API calls to your Python backend
       '/api': {
         target: 'http://localhost:8000', // Your Python backend port
         changeOrigin: true,
         secure: false,
+        timeout: 60000, // 60 second API timeout
+        configure: (proxy, _options) => {
+          proxy.on('error', (err, _req, _res) => {
+            console.log('Proxy error:', err);
+          });
+          proxy.on('proxyReq', (proxyReq, req, _res) => {
+            console.log('Sending Request to the Target:', req.method, req.url);
+          });
+          proxy.on('proxyRes', (proxyRes, req, _res) => {
+            console.log(
+              'Received Response from the Target:',
+              proxyRes.statusCode,
+              req.url
+            );
+          });
+        },
       },
     },
   },
@@ -49,6 +68,7 @@ export default defineConfig({
       '@types': path.resolve(__dirname, './src/types'),
       '@utils': path.resolve(__dirname, './src/utils'),
       '@styles': path.resolve(__dirname, './src/styles'),
+      '@constants': path.resolve(__dirname, './src/constants'),
     },
   },
 
@@ -61,4 +81,4 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   },
-})
+});

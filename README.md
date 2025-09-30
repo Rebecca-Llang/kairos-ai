@@ -31,59 +31,42 @@ Kairos runs as a Python backend with a React frontend, connecting to a local AI 
 ### Prerequisites
 - Python 3.8+, Node.js 18+, Ollama
 
-### Setup & Run
+### Setup
 ```bash
-# 1. Install Ollama model
+# Install Ollama model
 ollama pull llama3.2
 
-# 2. Set up Python backend
+# Set up environment
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt flask-cors
-
-# 3. Set up frontend
 npm install
 
-# 4. Run application
-# Terminal 1: API server
-source venv/bin/activate && cd src/python && python api_server.py
-
-# Terminal 2: Frontend
-npm run dev
-
-# Or terminal-only mode
-npm start
+# Run application
+npm run dev:full          # Starts both backend and frontend
 ```
 
 ### Access Points
 - **Frontend**: http://localhost:3000
 - **API**: http://localhost:8000
-- **Terminal**: Run `npm start` for CLI interface
+- **CLI**: `npm run cli`
 
 ## 📁 Project Structure
 
 ```
 luna-red/
-├── README.md
-├── package.json                    # Project scripts and dependencies
-├── requirements.txt                # Python dependencies
 ├── src/
-│   ├── python/                    # Backend
-│   │   ├── kairos_ai.py          # Main AI application
-│   │   ├── api_server.py         # Flask API server
-│   │   ├── database/             # Database models and operations
-│   │   └── tests/                # Backend tests
-│   ├── components/               # React components
-│   ├── pages/                    # React pages
-│   ├── services/                 # API services
-│   ├── hooks/                    # Custom React hooks
-│   └── types/                    # TypeScript types
-├── config/
-│   └── prompt.yaml              # Kairos's personality & system prompt
-├── data/
-│   ├── kairos.db                # SQLite database (generated)
-│   └── templates/               # Template files
-└── venv/                        # Python virtual environment
+│   ├── components/          # React components (chat, layout, ui)
+│   ├── pages/              # React pages
+│   ├── services/           # API services
+│   ├── hooks/              # Custom React hooks
+│   ├── types/              # TypeScript types
+│   ├── constants/          # App constants
+│   ├── utils/              # Utility functions
+│   └── python/             # Backend (AI, API, database)
+├── config/                 # Kairos personality config
+├── data/                   # Database and templates
+└── venv/                   # Python environment
 ```
 
 ## 🗄️ Database & Memory System
@@ -103,32 +86,39 @@ Examples:
 
 ## 🧪 Testing & Development
 
-### Testing
+### Quick Start
 ```bash
-# Backend tests
-npm test                    # All Python tests
-npm run test:api           # API tests
+# Install dependencies
+npm install
+pip install -r requirements.txt flask-cors
 
-# Frontend tests
-npm run type-check         # TypeScript checking
-npm run lint:frontend      # Code linting
-
-# API testing
-curl -X POST http://localhost:8000/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Hello Kairos!"}'
+# Run the application
+npm run dev:full          # Start both backend and frontend
 ```
 
-### Development
+### Available Commands
 ```bash
-# Code quality
-npm run format             # Format Python code
-npm run lint               # Lint Python code
+# Development
+npm run dev               # Frontend only
+npm run start             # Backend only
+npm run dev:full          # Both backend and frontend
 
-# Development scripts
-npm run dev:full          # Start both backend and frontend
-npm run build             # Build for production
-npm run preview           # Preview production build
+# Testing
+npm test                  # All Python tests
+npm run test:models       # Model tests
+npm run test:core         # Core operation tests
+npm run lint:frontend     # Frontend linting
+npm run type-check        # TypeScript checking
+
+# Code Quality
+npm run format            # Format Python code
+npm run format:frontend   # Format frontend code
+npm run lint:fix          # Auto-fix linting issues
+
+# Database
+npm run migrate           # Run database migrations
+npm run cli               # Run CLI interface
+npm run debug             # Run in debug mode
 ```
 
 ## 🔒 Privacy First
@@ -154,15 +144,21 @@ Built with:
 **✅ Complete:**
 - Python Backend with SQLite database and Kairos AI
 - Flask API server with CORS support
-- React Frontend with TypeScript and Tailwind
+- React Frontend with TypeScript and Tailwind CSS
 - Database integration with full CRUD operations
 - Memory system with semantic search
+- Professional code quality tools (ESLint, Prettier)
+- Component organization with index files
+- Centralized constants and configuration
+- TypeScript strict mode configuration
+- Vite build system with path aliases
 
 **🚀 Next Steps:**
-- UI Components (Shadcn/ui)
-- Real-time chat interface
+- Complete UI Components (Shadcn/ui integration)
+- Real-time chat interface implementation
 - Memory management interface
 - API integration with productivity tools
+- Component testing with React Testing Library
 
 ## 🤝 Contributing
 

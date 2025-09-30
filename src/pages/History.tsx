@@ -1,7 +1,16 @@
-import React from 'react'
+import React from 'react';
 
 const History: React.FC = () => {
-  return <div>History</div>
-}
+  return (
+    <div className='min-h-screen bg-deep-space constellation-bg flex items-center justify-center'>
+      <div className='text-center animate-twinkle'>
+        <h1 className='text-3xl font-bold text-starlight mb-4 text-glow'>
+          📜 History
+        </h1>
+        <p className='text-moonbeam'>Conversation history coming soon...</p>
+      </div>
+    </div>
+  );
+};
 
-export default History
+export default History;
