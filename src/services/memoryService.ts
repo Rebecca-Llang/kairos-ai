@@ -1,44 +1,53 @@
 // Memory service - API functions for memory operations
 // This file will contain memory CRUD operations, search, and bulk actions
 
-import { Memory } from '@/types'
-import { apiClient } from './api'
+import { Memory } from '@/types';
+import { apiClient } from './api';
 
 export const memoryService = {
   getMemories: async () => {
-    const response = await apiClient.memories()
+    const response = await apiClient.memories();
     if (!response) {
-      throw new Error('Failed to get memories')
+      throw new Error('Failed to get memories');
     }
 
-    return response
+    return response;
   },
   addMemory: async (memory: Memory) => {
-    const response = await apiClient.addMemory(memory)
+    const response = await apiClient.addMemory(memory);
     if (!response) {
-      throw new Error('Failed to add memory')
+      throw new Error('Failed to add memory');
     }
-    return response
+    return response;
   },
-  deleteMemory: async (id: string) => {
-    const response = await apiClient.deleteMemory(id)
+
+  updateMemory: async (id: number, memory: Partial<Memory>) => {
+    const response = await apiClient.updateMemory(id.toString(), memory);
     if (!response) {
-      throw new Error('Failed to delete memory')
+      throw new Error('Failed to update memory');
     }
-    return response
+    return response;
   },
-  getMemoryById: async (id: string) => {
-    const response = await apiClient.getMemoryById(id)
+
+  deleteMemory: async (id: number) => {
+    const response = await apiClient.deleteMemory(id.toString());
     if (!response) {
-      throw new Error('Failed to get memory by id')
+      throw new Error('Failed to delete memory');
     }
-    return response
+    return response;
+  },
+  getMemoryById: async (id: number) => {
+    const response = await apiClient.getMemoryById(id.toString());
+    if (!response) {
+      throw new Error('Failed to get memory by id');
+    }
+    return response;
   },
   deleteMemories: async () => {
-    const response = await apiClient.deleteMemories()
+    const response = await apiClient.deleteMemories();
     if (!response) {
-      throw new Error('Failed to delete memories')
+      throw new Error('Failed to delete memories');
     }
-    return response
+    return response;
   },
-}
+};

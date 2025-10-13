@@ -22,6 +22,7 @@ from database.operations import (
     get_all_memories,
     clear_chat_history,
     delete_memory_by_key,
+    delete_memory_by_id,
     get_database_stats,
 )
 from database.models import ChatMessage, SpellbookMemory
@@ -345,11 +346,22 @@ def handle_db_command(command: str, kairos: KairosAI) -> None:
         else:
             print(colored(f"❌ Failed to delete memory '{memory_key}'", "red"))
 
+    elif cmd.startswith("db:delete_memory_id "):
+        try:
+            memory_id = int(cmd.replace("db:delete_memory_id ", "").strip())
+            if delete_memory_by_id(memory_id, DB_PATH):
+                print(colored(f"✅ Memory with ID {memory_id} deleted", "green"))
+            else:
+                print(colored(f"❌ Failed to delete memory with ID {memory_id}", "red"))
+        except ValueError:
+            print(colored("❌ Invalid memory ID. Please provide a number.", "red"))
+
     elif cmd == "db:help":
         print(colored("🗄️ Database Commands:", "yellow"))
         print(colored("  db:stats - Show database statistics", "cyan"))
         print(colored("  db:clear_chat - Clear all chat history", "cyan"))
-        print(colored("  db:delete_memory <key> - Delete specific memory", "cyan"))
+        print(colored("  db:delete_memory <key> - Delete memory by key (legacy)", "cyan"))
+        print(colored("  db:delete_memory_id <id> - Delete memory by ID (preferred)", "cyan"))
         print(colored("  db:help - Show this help", "cyan"))
 
     else:

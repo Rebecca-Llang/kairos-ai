@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { vi } from 'vitest';
-import Chat from '@/pages/Chat';
+import { vi, describe, it, expect } from 'vitest';
+import Chat from '../Chat';
 
 // Mock the ChatInterface component
 vi.mock('@/components/chat/ChatInterface', () => ({
@@ -16,10 +16,15 @@ const renderWithRouter = (component: React.ReactElement) => {
 };
 
 describe('Chat Page', () => {
-  it('renders the chat page with title', () => {
+  it('renders the page with title and description', () => {
     renderWithRouter(<Chat />);
 
     expect(screen.getByText('Chat with Kairos')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Your AI companion for creative and introspective conversations'
+      )
+    ).toBeInTheDocument();
   });
 
   it('renders the ChatInterface component', () => {
@@ -28,3 +33,4 @@ describe('Chat Page', () => {
     expect(screen.getByTestId('chat-interface')).toBeInTheDocument();
   });
 });
+

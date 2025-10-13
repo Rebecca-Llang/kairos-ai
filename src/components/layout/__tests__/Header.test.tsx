@@ -1,16 +1,18 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { vi } from 'vitest';
-import Header from '@/components/layout/Header';
+import { vi, describe, it, expect } from 'vitest';
+import Header from '../Header';
 
 // Mock the useNavigation hook
 vi.mock('@/hooks/useNavigation', () => ({
   useNavigation: () => ({
     activeTab: 'Chat',
     items: [
-      { name: 'Chat', href: '/chat' },
+      { name: 'Chat', href: '/' },
+      { name: 'Persona', href: '/persona' },
       { name: 'Spellbook', href: '/spellbook' },
+      { name: 'History', href: '/history' },
     ],
   }),
 }));
@@ -26,10 +28,12 @@ describe('Header Component', () => {
     expect(screen.getByText('Kairos AI')).toBeInTheDocument();
   });
 
-  it('renders navigation links', () => {
+  it('renders all navigation links', () => {
     renderWithRouter(<Header />);
 
     expect(screen.getByText('Chat')).toBeInTheDocument();
+    expect(screen.getByText('Persona')).toBeInTheDocument();
     expect(screen.getByText('Spellbook')).toBeInTheDocument();
+    expect(screen.getByText('History')).toBeInTheDocument();
   });
 });

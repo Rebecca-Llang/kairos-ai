@@ -3,12 +3,17 @@ import typescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
+import globals from 'globals';
 
 export default [
   js.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
       parser: typescriptParser,
       parserOptions: {
         ecmaVersion: 'latest',
@@ -44,6 +49,16 @@ export default [
     settings: {
       react: {
         version: 'detect',
+      },
+    },
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/__tests__/**/*.{ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.jest,
       },
     },
   },

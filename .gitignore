@@ -90,6 +90,7 @@ the-spellbook-bee.json
 htmlcov/
 .tox/
 .nox/
+coverage/
 
 # Jupyter Notebook
 .ipynb_checkpoints

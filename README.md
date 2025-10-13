@@ -17,14 +17,13 @@ Kairos is a warm, intelligent AI companion designed specifically for neurodiverg
 Kairos runs as a Python backend with a React frontend, connecting to a local AI model (Ollama). Everything stays on your machine—your data, your conversations, your privacy.
 
 ### Key Features
-- **🧠 Memory System**: Remembers preferences, challenges, and strategies that work for you
-- **🔍 Pattern Recognition**: Notices recurring themes in mood, energy, and thinking
-- **🌙 Cycle Awareness**: Understands how cycles affect focus and energy
-- **🎯 Neurodivergent Support**: Body doubling, implementation intentions, and task initiation help
-- **❤️ Emotional Intelligence**: CBT techniques, emotional regulation tools, and gentle accountability
+- **🧠 Memory System**: Complete CRUD operations for storing and managing personal memories
+- **💬 Chat Interface**: Real-time conversation with Kairos AI (fully functional)
+- **📚 Spellbook**: Add, edit, and delete memories with responsive interface
 - **✨ Modern Web Interface**: Beautiful React frontend with TypeScript and Tailwind CSS
-- **🚨 Hallucination Detection**: Automatically detects and removes fake user input
-- **⏱️ Smart Timeouts**: Prevents hanging responses with intelligent timeout management
+- **🔒 Privacy First**: Everything runs locally - no data leaves your machine
+- **🧪 Testing Infrastructure**: Comprehensive test suite with coverage reporting
+- **⚡ Fast Development**: Hot reload, TypeScript, ESLint, Prettier all configured
 
 ## 🛠️ Quick Start
 
@@ -47,7 +46,7 @@ npm run dev:full          # Starts both backend and frontend
 ```
 
 ### Access Points
-- **Frontend**: http://localhost:3000
+- **Frontend**: http://localhost:3000 (Chat & Spellbook fully functional)
 - **API**: http://localhost:8000
 - **CLI**: `npm run cli`
 
@@ -97,38 +96,78 @@ npm run dev:full          # Start both backend and frontend
 ```
 
 ### Available Commands
+
+#### Development
 ```bash
-# Development
-npm run dev               # Frontend only
-npm run start             # Backend only
-npm run dev:full          # Both backend and frontend
-
-# Testing
-npm test                  # All Python tests
-npm run test:frontend     # Frontend tests (watch mode)
-npm run test:frontend:run # Frontend tests (run once)
-npm run test:models       # Model tests
-npm run test:core         # Core operation tests
-npm run test:migration    # Migration tests
-npm run lint:frontend     # Frontend linting
-npm run type-check        # TypeScript checking
-
-# Code Quality
-npm run format            # Format Python code
-npm run format:frontend   # Format frontend code
-npm run format:check      # Check formatting
-npm run lint:fix          # Auto-fix linting issues
-npm run lint              # Python linting
-
-# Database & CLI
-npm run migrate           # Run database migrations
-npm run cli               # Run CLI interface
-npm run debug             # Run in debug mode
-
-# Build & Deploy
-npm run build             # Build frontend
-npm run preview           # Preview built frontend
+npm run dev               # Frontend dev server (Vite)
+npm run start             # Backend API server (Flask)
+npm run dev:full          # Both backend and frontend (recommended)
+npm run cli               # CLI interface with Kairos
+npm run debug             # Backend in debug mode
 ```
+
+#### Testing
+```bash
+# Run all tests (backend + frontend)
+npm test
+
+# Frontend tests
+npm run test:frontend           # Watch mode (auto-rerun on changes)
+npm run test:frontend:run       # Run once
+npm run test:frontend:coverage  # Run with coverage report
+
+# Backend tests
+npm run test:backend            # All Python tests (11 tests)
+
+# Coverage
+npm run test:coverage           # Generate coverage report
+```
+
+#### Code Quality
+```bash
+# Linting
+npm run lint              # Python linting (flake8)
+npm run lint:frontend     # TypeScript/React linting (ESLint)
+npm run lint:fix          # Auto-fix linting issues
+
+# Formatting
+npm run format            # Format Python code (Black)
+npm run format:frontend   # Format frontend code (Prettier)
+npm run format:check      # Check formatting without changes
+
+# Type Checking
+npm run type-check        # TypeScript type checking
+```
+
+#### Database & Migrations
+```bash
+npm run migrate           # Run database migrations
+```
+
+#### Build & Deploy
+```bash
+npm run build             # Build frontend for production
+npm run preview           # Preview production build
+```
+
+### Testing Strategy
+
+Kairos uses a comprehensive testing approach with **Unit Tests** (80%) and **Integration Tests** (15%), with **E2E Tests** (5%) planned for the future.
+
+#### **Unit Tests**
+- **Tool**: Vitest with React Testing Library
+- **Coverage**: Components, hooks, utilities
+- **Speed**: Fast (3-5 seconds)
+- **Location**: `src/**/__tests__/*.test.tsx`
+
+**Current**: 29 tests total (11 backend + 18 frontend) across core functionality.
+
+#### **Coverage Reports**
+```bash
+npm run test:coverage
+```
+
+Generates terminal summary and HTML report (`coverage/index.html`). Target: 60%+ coverage.
 
 ## 🔒 Privacy First
 
@@ -150,24 +189,26 @@ Built with:
 
 ## 🔮 Status & Roadmap
 
-**✅ Complete:**
-- Python Backend with SQLite database and Kairos AI
-- Flask API server with CORS support
-- React Frontend with TypeScript and Tailwind CSS
-- Database integration with full CRUD operations
-- Memory system with semantic search
-- Professional code quality tools (ESLint, Prettier)
-- Component organization with index files
-- Centralized constants and configuration
-- TypeScript strict mode configuration
-- Vite build system with path aliases
+**✅ Complete & Functional:**
+- **Backend**: Python Flask API with SQLite database and Kairos AI
+- **Chat Interface**: Fully functional real-time conversation system
+- **Spellbook**: Complete memory management (add/edit/delete) with responsive UI
+- **Testing**: Comprehensive test suite (29 tests total) with coverage reporting
+- **Code Quality**: ESLint, Prettier, TypeScript, Vitest all configured
+- **Development**: Hot reload, path aliases, modern build system
 
-**🚀 Next Steps:**
-- Complete UI Components (Shadcn/ui integration)
-- Real-time chat interface implementation
-- Memory management interface
-- API integration with productivity tools
-- Component testing with React Testing Library
+**🚧 In Progress:**
+- **About Page**: Basic placeholder (needs content)
+- **Persona Page**: AI personality settings (placeholder)
+- **History Page**: Conversation history viewer (placeholder)
+
+**🚀 Future Enhancements:**
+- Complete About page with project information
+- AI personality customization interface
+- Conversation history browsing
+- Advanced memory search and filtering
+- E2E testing with Playwright
+- Performance optimizations
 
 ## 🤝 Contributing
 

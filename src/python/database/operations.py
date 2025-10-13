@@ -259,7 +259,11 @@ def get_all_memories(db_path: str = "kairos.db") -> List[Dict[str, Any]]:
 
 
 def delete_memory_by_key(memory_key: str, db_path: str = "kairos.db") -> bool:
-    """Delete a memory by key."""
+    """
+    Delete a memory by key.
+    
+    Legacy method - kept for CLI/admin operations.
+    """
     try:
         key = _normalize_memory_key(memory_key)
 
@@ -274,6 +278,63 @@ def delete_memory_by_key(memory_key: str, db_path: str = "kairos.db") -> bool:
         return _with_conn(db_path, _run)
     except Exception as e:
         print(f"Error deleting memory by key: {e}")
+        return False
+
+
+def update_memory_by_id(
+    memory_id: int,
+    memory_key: str,
+    memory_value: str,
+    priority: int,
+    db_path: str = "kairos.db",
+) -> bool:
+    """
+    Update a memory by ID.
+    """
+    try:
+        key = _normalize_memory_key(memory_key)
+        if not key:
+            raise ValueError("memory_key is required")
+        if not memory_value.strip():
+            raise ValueError("memory_value is required")
+        # Clamp priority
+        priority = max(1, min(10, priority))
+
+        def _run(conn):
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                UPDATE spellbook_memories 
+                SET memory_key = ?, memory_value = ?, priority = ?, updated_at = CURRENT_TIMESTAMP
+                WHERE id = ?
+                """,
+                (key, memory_value.strip(), priority, memory_id)
+            )
+            conn.commit()
+            return cursor.rowcount > 0
+
+        return _with_conn(db_path, _run)
+    except Exception as e:
+        print(f"Error updating memory by ID: {e}")
+        return False
+
+
+def delete_memory_by_id(memory_id: int, db_path: str = "kairos.db") -> bool:
+    """
+    Delete a memory by ID.
+    """
+    try:
+        def _run(conn):
+            cursor = conn.cursor()
+            cursor.execute(
+                "DELETE FROM spellbook_memories WHERE id = ?", (memory_id,)
+            )
+            conn.commit()
+            return cursor.rowcount > 0
+
+        return _with_conn(db_path, _run)
+    except Exception as e:
+        print(f"Error deleting memory by ID: {e}")
         return False
 
 

@@ -9,6 +9,8 @@ from database.operations import (
     add_memory,
     get_all_memories,
     delete_memory_by_key,
+    delete_memory_by_id,
+    update_memory_by_id,
     get_database_stats,
     clear_chat_history,
     delete_chat_msg_by_id,
@@ -52,6 +54,15 @@ def chat():
     except Exception as e:
         return jsonify({"error": f"Failed to generate response: {str(e)}"}), 500
 
+
+# Memory Management API Endpoints
+#
+# For frontend development, use the ID-based endpoints:
+#   PUT /api/memories/id/<id> - Update memory by ID
+#   DELETE /api/memories/id/<id> - Delete memory by ID
+#
+# Legacy endpoints (kept for CLI/admin operations):
+#   DELETE /api/memories/<key> - Delete memory by key
 
 @app.route("/api/memories", methods=["GET", "POST"])
 def memories():
@@ -113,13 +124,59 @@ def delete_chat_message(msg_id):
 
 
 @app.route("/api/memories/<memory_key>", methods=["DELETE"])
-def delete_memory(memory_key):
+def delete_memory_by_key_endpoint(memory_key):
+    """
+    Delete a memory by key.
+    
+    Legacy endpoint - kept for CLI/admin operations.
+    """
     try:
         success = delete_memory_by_key(memory_key, db_path=DB_PATH)
         if success:
             return jsonify({"message": f'Memory "{memory_key}" deleted successfully'})
         else:
             return jsonify({"error": f'Memory "{memory_key}" not found'}), 404
+    except Exception as e:
+        return jsonify({"error": f"Failed to delete memory: {str(e)}"}), 500
+
+
+@app.route("/api/memories/id/<int:memory_id>", methods=["PUT"])
+def update_memory_by_id_endpoint(memory_id):
+    """
+    Update a memory by ID.
+    """
+    try:
+        data = request.json
+        memory_key = data.get("memory_key")
+        memory_value = data.get("memory_value")
+        priority = data.get("priority", 5)
+
+        if not memory_key or not memory_value:
+            return jsonify({"error": "Memory key and value are required"}), 400
+
+        success = update_memory_by_id(
+            memory_id, memory_key, memory_value, priority, db_path=DB_PATH
+        )
+        
+        if success:
+            return jsonify({"message": f"Memory with ID {memory_id} updated successfully"})
+        else:
+            return jsonify({"error": f"Memory with ID {memory_id} not found"}), 404
+    except Exception as e:
+        return jsonify({"error": f"Failed to update memory: {str(e)}"}), 500
+
+
+@app.route("/api/memories/id/<int:memory_id>", methods=["DELETE"])
+def delete_memory_by_id_endpoint(memory_id):
+    """
+    Delete a memory by ID.
+    """
+    try:
+        success = delete_memory_by_id(memory_id, db_path=DB_PATH)
+        if success:
+            return jsonify({"message": f"Memory with ID {memory_id} deleted successfully"})
+        else:
+            return jsonify({"error": f"Memory with ID {memory_id} not found"}), 404
     except Exception as e:
         return jsonify({"error": f"Failed to delete memory: {str(e)}"}), 500
 

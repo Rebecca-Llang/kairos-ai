@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Chat types
 export interface ChatMessage {
   id: string;

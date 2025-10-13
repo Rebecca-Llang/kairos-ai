@@ -1,7 +1,6 @@
 import { Contact } from '@/types';
 import { MdEmail } from 'react-icons/md';
-import { FaLinkedin } from 'react-icons/fa';
-import { FaGithub } from 'react-icons/fa';
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 export const contact: Contact[] = [
   {

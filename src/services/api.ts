@@ -12,7 +12,8 @@ const CHAT_TIMEOUT = API_CONFIG.TIMEOUTS.CHAT;
 // Helper function to create fetch with timeout
 const fetchWithTimeout = async (
   url: string,
-  options: RequestInit,
+  // eslint-disable-next-line no-undef
+  options: RequestInit & { signal?: AbortSignal },
   timeout: number = DEFAULT_TIMEOUT
 ) => {
   const controller = new AbortController();
@@ -93,8 +94,18 @@ export const apiClient = {
     });
     return response.json();
   },
+  updateMemory: async (id: string, memory: Partial<Memory>) => {
+    const response = await fetch(`${API_BASE_URL}/memories/id/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(memory),
+    });
+    return response.json();
+  },
   deleteMemory: async (id: string) => {
-    const response = await fetch(`${API_BASE_URL}/memories/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/memories/id/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
@@ -22,5 +22,26 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     globals: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'src/test/',
+        '**/*.test.{ts,tsx}',
+        '**/__tests__/**',
+        'src/main.tsx',
+        'src/vite-env.d.ts',
+        '*.config.{js,ts}',
+        'dist/',
+        'src/python/**',
+      ],
+      include: ['src/**/*.{ts,tsx}'],
+      all: true,
+      lines: 60,
+      functions: 60,
+      branches: 60,
+      statements: 60,
+    },
   },
-})
+});
